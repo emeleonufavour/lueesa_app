@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:lueesa_app/ui/style/app_theme.dart';
+import 'package:lueesa_app/ui/views/home/home.dart';
+import 'package:lueesa_app/ui/views/splash_screen/splash_view.dart';
 
 void main() {
   runApp(const MainApp());
@@ -9,12 +12,7 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Text('Hello World!'),
-        ),
-      ),
-    );
+    return MaterialApp(
+        theme: AppTheme.lightTheme, home: const SplashScreenView());
   }
 }
