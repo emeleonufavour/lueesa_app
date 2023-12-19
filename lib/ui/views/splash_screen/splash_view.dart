@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:lueesa_app/ui/views/home/home.dart';
 
+import '../auth/login/login_view.dart';
+
 class SplashScreenView extends StatefulWidget {
   const SplashScreenView({super.key});
 
@@ -31,8 +33,8 @@ class _HomeViewState extends State<SplashScreenView>
   @override
   Widget build(BuildContext context) {
     Future.delayed(const Duration(milliseconds: 4500), () {
-      Navigator.push(
-          context, MaterialPageRoute(builder: ((context) => const HomeView())));
+      Navigator.push(context,
+          MaterialPageRoute(builder: ((context) => const LoginView())));
     });
     return Scaffold(
         body: Center(
