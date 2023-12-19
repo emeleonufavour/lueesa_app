@@ -11,9 +11,19 @@ class LoginView extends StatefulWidget {
   State<LoginView> createState() => _LoginViewState();
 }
 
-class _LoginViewState extends State<LoginView> {
+class _LoginViewState extends State<LoginView> with TickerProviderStateMixin {
   TextEditingController emailController = TextEditingController();
   TextEditingController passController = TextEditingController();
+  late AnimationController _controller;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _controller =
+        AnimationController(vsync: this, duration: const Duration(seconds: 4));
+    _controller.forward();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -72,11 +82,7 @@ class _LoginViewState extends State<LoginView> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.all(10),
-                            child: AppAssets.lueesaLogo(100),
-                          ),
-                          Gap(50),
+                          const Gap(50),
                           //email & password textField
                           Padding(
                             padding:
@@ -260,6 +266,12 @@ class _LoginViewState extends State<LoginView> {
                     )
                   ],
                 ),
+              ),
+              AnimatedPositioned(
+                duration: const Duration(seconds: 1),
+                top: _controller.value > 0.5 ? -100 : size.height * 0.2,
+                left: size.width * 0.38,
+                child: AppAssets.lueesaLogo(100),
               ),
             ],
           ),
