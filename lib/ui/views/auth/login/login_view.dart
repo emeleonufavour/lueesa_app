@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:lueesa_app/ui/style/app_assets.dart';
 import 'package:lueesa_app/ui/style/app_colors.dart';
+import 'package:gap/gap.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({Key? key}) : super(key: key);
@@ -75,7 +76,7 @@ class _LoginViewState extends State<LoginView> {
                             padding: const EdgeInsets.all(10),
                             child: AppAssets.lueesaLogo(100),
                           ),
-
+                          Gap(50),
                           //email & password textField
                           Padding(
                             padding:
@@ -247,15 +248,7 @@ class _LoginViewState extends State<LoginView> {
                             width: size.width * 0.7,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(50.0),
-                              color: const Color(0xFF21899C),
-                              boxShadow: [
-                                BoxShadow(
-                                  color:
-                                      const Color(0xFF4C2E84).withOpacity(0.2),
-                                  offset: const Offset(0, 15.0),
-                                  blurRadius: 60.0,
-                                ),
-                              ],
+                              color: AppColor.blue,
                             ),
                             child: const Text(
                               'Sign in',
