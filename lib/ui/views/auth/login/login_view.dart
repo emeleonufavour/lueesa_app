@@ -264,7 +264,9 @@ class LoginView extends StatelessWidget {
 
                                   //sign in button
                                   GestureDetector(
-                                    onTap: () => context.go(ScreenPath.home),
+                                    onTap: () async {
+                                      await model.login(context);
+                                    },
                                     child: Container(
                                       alignment: Alignment.center,
                                       height: size.height / 13,
@@ -274,10 +276,14 @@ class LoginView extends StatelessWidget {
                                             BorderRadius.circular(50.0),
                                         color: AppColor.darkBlue,
                                       ),
-                                      child: const Text(
-                                        'Sign in',
-                                        textAlign: TextAlign.center,
-                                      ),
+                                      child: model.isBusy
+                                          ? const CircularProgressIndicator(
+                                              color: Colors.white,
+                                            )
+                                          : const Text(
+                                              'Sign in',
+                                              textAlign: TextAlign.center,
+                                            ),
                                     ),
                                   ),
                                 ],
@@ -286,11 +292,7 @@ class LoginView extends StatelessWidget {
                           ],
                         ),
                       ),
-                      // Positioned(
-                      //   top: 200,
-                      //   left: size.width * 0.38,
-                      //   child: AppAssets.lueesaLogo(100),
-                      // )
+
                       AnimatedPositioned(
                         duration: const Duration(seconds: 1),
                         top: model.isOpen ? 200 : -200,
