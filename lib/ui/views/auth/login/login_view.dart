@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
+import 'package:lueesa_app/app/routing/screen_path.dart';
 import 'package:lueesa_app/ui/style/app_assets.dart';
 import 'package:lueesa_app/ui/style/app_colors.dart';
 import 'package:gap/gap.dart';
@@ -261,17 +263,21 @@ class LoginView extends StatelessWidget {
                                   ),
 
                                   //sign in button
-                                  Container(
-                                    alignment: Alignment.center,
-                                    height: size.height / 13,
-                                    width: size.width * 0.7,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(50.0),
-                                      color: AppColor.blue,
-                                    ),
-                                    child: const Text(
-                                      'Sign in',
-                                      textAlign: TextAlign.center,
+                                  GestureDetector(
+                                    onTap: () => context.go(ScreenPath.home),
+                                    child: Container(
+                                      alignment: Alignment.center,
+                                      height: size.height / 13,
+                                      width: size.width * 0.7,
+                                      decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(50.0),
+                                        color: AppColor.darkBlue,
+                                      ),
+                                      child: const Text(
+                                        'Sign in',
+                                        textAlign: TextAlign.center,
+                                      ),
                                     ),
                                   ),
                                 ],

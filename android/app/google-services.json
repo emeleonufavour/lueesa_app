@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "55150659522",
+    "project_id": "lueesa-app",
+    "storage_bucket": "lueesa-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:55150659522:android:7fd3e697ab6e207486785b",
+        "android_client_info": {
+          "package_name": "com.example.lueesa_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBab-wgyXx1fEA0RzuwN_HP6WK1M92870s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
