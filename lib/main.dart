@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:lueesa_app/app/routing/app_route.dart';
 import 'package:lueesa_app/ui/style/app_theme.dart';
-import 'package:lueesa_app/ui/views/home/home.dart';
-import 'package:lueesa_app/ui/views/splash_screen/splash_view.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MainApp());
 }
 
