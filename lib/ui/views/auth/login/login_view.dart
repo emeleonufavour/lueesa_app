@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_icon_snackbar/flutter_icon_snackbar.dart';
 import 'package:flutter_svg/svg.dart';
@@ -6,9 +8,11 @@ import 'package:lueesa_app/app/routing/screen_path.dart';
 import 'package:lueesa_app/ui/style/app_assets.dart';
 import 'package:lueesa_app/ui/style/app_colors.dart';
 import 'package:gap/gap.dart';
+import 'package:lueesa_app/ui/utilities/l_text.dart';
 import 'package:lueesa_app/ui/widgets/l_textfield.dart';
 import 'package:stacked/stacked.dart';
 
+import '../../../utilities/l_validator.dart';
 import 'login_vm.dart';
 
 class LoginView extends StatelessWidget {
@@ -25,7 +29,7 @@ class LoginView extends StatelessWidget {
           });
         },
         builder: (context, model, _) => Scaffold(
-              backgroundColor: AppColor.blue,
+              backgroundColor: AppColor.darkBlue,
               resizeToAvoidBottomInset: false,
               body: SafeArea(
                 child: SizedBox(
@@ -65,172 +69,145 @@ class LoginView extends StatelessWidget {
                       //Main card
                       Positioned(
                         bottom: 20.0,
-                        child: Column(
-                          children: <Widget>[
-                            Container(
-                              alignment: Alignment.center,
-                              width: size.width * 0.9,
-                              height: size.height * 0.7,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(50.0),
-                                color: Colors.white,
-                              ),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  const Gap(50),
-                                  //email & password textField
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 16.0),
-                                    child: SizedBox(
-                                      height: size.height / 12,
-                                      child: TextField(
-                                        controller: model.emailController,
-                                        maxLines: 1,
+                        child: Form(
+                          key: model.formKey,
+                          child: Column(
+                            children: <Widget>[
+                              Container(
+                                alignment: Alignment.center,
+                                width: size.width * 0.9,
+                                height: size.height * 0.7,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(50.0),
+                                  color: Colors.white,
+                                ),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    const Gap(50),
+                                    //email & password textField
+                                    Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 16.0),
+                                        child: LTextField(
+                                            keyboardType:
+                                                TextInputType.emailAddress,
+                                            incorrectInput:
+                                                model.incorrectEmail,
+                                            hintText: "Enter your email",
+                                            validate: (value) {
+                                              return LValidator.validateEmail(
+                                                  value!);
+                                            },
+                                            onChanged: (value) {
+                                              final error =
+                                                  LValidator.validateEmail(
+                                                      value);
+                                              model.incorrectEmail =
+                                                  !(error == null);
+                                              log("Incorrect input: ${model.incorrectEmail}");
+                                            },
+                                            textCtr: model.emailController)),
+                                    SizedBox(
+                                      height: size.height * 0.02,
+                                    ),
+
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 16),
+                                      child: LTextField(
+                                        incorrectInput: model.incorrectPassword,
+                                        hintText: "Enter your password",
                                         keyboardType:
-                                            TextInputType.emailAddress,
-                                        cursorColor: const Color(0xFF151624),
-                                        decoration: InputDecoration(
-                                          hintText: 'Enter your email',
-                                          filled: true,
-                                          fillColor:
-                                              model.emailController.text.isEmpty
-                                                  ? const Color.fromRGBO(
-                                                      248, 247, 251, 1)
-                                                  : Colors.transparent,
-                                          enabledBorder: OutlineInputBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(40),
-                                              borderSide: BorderSide(
-                                                color: model.emailController
-                                                        .text.isEmpty
-                                                    ? Colors.transparent
-                                                    : const Color.fromRGBO(
-                                                        44, 185, 176, 1),
-                                              )),
-                                          focusedBorder: OutlineInputBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(40),
-                                              borderSide: const BorderSide(
-                                                color: Color.fromRGBO(
-                                                    44, 185, 176, 1),
-                                              )),
-                                          prefixIcon: Icon(
-                                            Icons.mail_outline_rounded,
-                                            color: model.emailController.text
-                                                    .isEmpty
-                                                ? const Color(0xFF151624)
-                                                    .withOpacity(0.5)
-                                                : const Color.fromRGBO(
-                                                    44, 185, 176, 1),
-                                            size: 16,
-                                          ),
-                                          suffix: Container(
+                                            TextInputType.visiblePassword,
+                                        validate: (value) {
+                                          return LValidator.validatePassword(
+                                              value!);
+                                        },
+                                        textCtr: model.passController,
+                                        obscureText: true,
+                                        onChanged: (value) {
+                                          final error =
+                                              LValidator.validatePassword(
+                                                  value);
+                                          model.incorrectPassword =
+                                              !(error == null);
+                                          log("Incorrect password ==> ${model.incorrectPassword}");
+                                        },
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: size.height * 0.03,
+                                    ),
+
+                                    //remember & forget text
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 20.0),
+                                      child: Row(
+                                        children: [
+                                          Container(
                                             alignment: Alignment.center,
-                                            width: 24.0,
-                                            height: 24.0,
+                                            width: 20.0,
+                                            height: 20.0,
                                             decoration: BoxDecoration(
                                               borderRadius:
-                                                  BorderRadius.circular(100.0),
-                                              color: const Color.fromRGBO(
-                                                  44, 185, 176, 1),
+                                                  BorderRadius.circular(5.0),
+                                              color: const Color(0xFF21899C),
                                             ),
-                                            child: model.emailController.text
-                                                    .isEmpty
-                                                ? const Center()
-                                                : const Icon(
-                                                    Icons.check,
-                                                    color: Colors.white,
-                                                    size: 13,
-                                                  ),
+                                            child: const Icon(
+                                              Icons.check,
+                                              size: 13,
+                                              color: Colors.white,
+                                            ),
                                           ),
-                                        ),
+                                          const SizedBox(
+                                            width: 8,
+                                          ),
+                                          const Text(
+                                            'Remember me',
+                                          ),
+                                          const Spacer(),
+                                          const Text(
+                                            'Forgot password',
+                                            textAlign: TextAlign.right,
+                                          ),
+                                        ],
                                       ),
                                     ),
-                                  ),
-                                  SizedBox(
-                                    height: size.height * 0.02,
-                                  ),
+                                    SizedBox(
+                                      height: size.height * 0.04,
+                                    ),
 
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 16),
-                                    child: LTextField(
-                                        hintText: "Enter your password",
-                                        textCtr: model.passController),
-                                  ),
-                                  SizedBox(
-                                    height: size.height * 0.03,
-                                  ),
-
-                                  //remember & forget text
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 20.0),
-                                    child: Row(
-                                      children: [
-                                        Container(
+                                    //sign in button
+                                    GestureDetector(
+                                      onTap: () async {
+                                        await model.login(context);
+                                      },
+                                      child: Container(
                                           alignment: Alignment.center,
-                                          width: 20.0,
-                                          height: 20.0,
+                                          height: size.height / 13,
+                                          width: size.width * 0.7,
                                           decoration: BoxDecoration(
                                             borderRadius:
-                                                BorderRadius.circular(5.0),
-                                            color: const Color(0xFF21899C),
+                                                BorderRadius.circular(50.0),
+                                            color: AppColor.darkBlue,
                                           ),
-                                          child: const Icon(
-                                            Icons.check,
-                                            size: 13,
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                        const SizedBox(
-                                          width: 8,
-                                        ),
-                                        const Text(
-                                          'Remember me',
-                                        ),
-                                        const Spacer(),
-                                        const Text(
-                                          'Forgot password',
-                                          textAlign: TextAlign.right,
-                                        ),
-                                      ],
+                                          child: model.isBusy
+                                              ? const CircularProgressIndicator(
+                                                  color: Colors.white,
+                                                )
+                                              : const TextWidget(
+                                                  text: "Sign In",
+                                                  textAlign: TextAlign.center,
+                                                  color: Colors.white,
+                                                )),
                                     ),
-                                  ),
-                                  SizedBox(
-                                    height: size.height * 0.04,
-                                  ),
-
-                                  //sign in button
-                                  GestureDetector(
-                                    onTap: () async {
-                                      await model.login(context);
-                                    },
-                                    child: Container(
-                                      alignment: Alignment.center,
-                                      height: size.height / 13,
-                                      width: size.width * 0.7,
-                                      decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(50.0),
-                                        color: AppColor.darkBlue,
-                                      ),
-                                      child: model.isBusy
-                                          ? const CircularProgressIndicator(
-                                              color: Colors.white,
-                                            )
-                                          : const Text(
-                                              'Sign in',
-                                              textAlign: TextAlign.center,
-                                            ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            )
-                          ],
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
                         ),
                       ),
 

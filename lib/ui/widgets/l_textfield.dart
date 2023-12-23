@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lueesa_app/ui/style/app_colors.dart';
 
@@ -19,6 +20,7 @@ class LTextField extends StatelessWidget {
   final Widget? suffixIcon;
   final bool obscureText;
   final String? prefixText;
+  final bool incorrectInput;
   const LTextField(
       {this.label,
       required this.hintText,
@@ -34,6 +36,7 @@ class LTextField extends StatelessWidget {
       this.labelColor,
       this.suffixIcon,
       this.prefixText,
+      this.incorrectInput = true,
       this.obscureText = false,
       super.key});
 
@@ -61,6 +64,7 @@ class LTextField extends StatelessWidget {
               obscureText: obscureText,
               keyboardType: keyboardType,
               onFieldSubmitted: onFieldSubmitted,
+              validator: validate,
               onChanged: onChanged,
               onEditingComplete: onEditingComplete,
               style: const TextStyle(
@@ -103,12 +107,12 @@ class LTextField extends StatelessWidget {
                   height: 24.0,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(100.0),
-                    color: AppColor.darkBlue,
+                    color: incorrectInput ? Colors.red : Colors.blueAccent,
                   ),
                   child: textCtr.text.isEmpty
                       ? const Center()
-                      : const Icon(
-                          Icons.check,
+                      : Icon(
+                          incorrectInput ? CupertinoIcons.xmark : Icons.check,
                           color: Colors.white,
                           size: 13,
                         ),

@@ -11,17 +11,18 @@ class LValidator {
     }
   }
 
+//^[a-zA-Z0-9._%+-]+@lmu\.edu\.ng$
+//^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,}$
   //this validator checks for email
-  static validateEmail(String value) {
+  static String? validateEmail(String value) {
     if (value.isEmpty) {
       return 'Email is required';
     }
     if (value.isEmpty ||
-        !RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
+        !RegExp(r'^[a-zA-Z0-9._%+-]+@lueesa\.lmu\.edu\.ng$').hasMatch(value)) {
       return "Enter a correct Email Address";
-    } else {
-      return null;
     }
+    return null;
   }
 
   static String? validatePassword(String password) {
@@ -37,19 +38,19 @@ class LValidator {
     }
 
     // We make sure each password must contain at least one lowercase letter
-    if (!password.contains(RegExp(r'[a-z]'))) {
-      return 'Password must contain at least one lowercase letter';
-    }
+    // if (!password.contains(RegExp(r'[a-z]'))) {
+    //   return 'Password must contain at least one lowercase letter';
+    // }
 
     // We make sure each password must contain at least one digit
-    if (!password.contains(RegExp(r'[0-9]'))) {
-      return 'Password must contain at least one digit';
-    }
+    // if (!password.contains(RegExp(r'[0-9]'))) {
+    //   return 'Password must contain at least one digit';
+    // }
 
     //We make sure the password contains a special character
-    if (!password.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'))) {
-      return 'Password must contain at least one special character';
-    }
+    // if (!password.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'))) {
+    //   return 'Password must contain at least one special character';
+    // }
 
     return null; // Password is valid
   }
