@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_icon_snackbar/flutter_icon_snackbar.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lueesa_app/app/routing/screen_path.dart';
 import 'package:lueesa_app/ui/style/app_assets.dart';
 import 'package:lueesa_app/ui/style/app_colors.dart';
 import 'package:gap/gap.dart';
+import 'package:lueesa_app/ui/widgets/l_textfield.dart';
 import 'package:stacked/stacked.dart';
 
 import 'login_vm.dart';
@@ -150,74 +152,13 @@ class LoginView extends StatelessWidget {
                                   SizedBox(
                                     height: size.height * 0.02,
                                   ),
+
                                   Padding(
                                     padding: const EdgeInsets.symmetric(
-                                        horizontal: 16.0),
-                                    child: SizedBox(
-                                      height: size.height / 12,
-                                      child: TextField(
-                                        controller: model.passController,
-                                        cursorColor: const Color(0xFF151624),
-                                        obscureText: true,
-                                        keyboardType:
-                                            TextInputType.visiblePassword,
-                                        decoration: InputDecoration(
-                                          hintText: 'Enter your password',
-                                          filled: true,
-                                          fillColor:
-                                              model.passController.text.isEmpty
-                                                  ? const Color.fromRGBO(
-                                                      248, 247, 251, 1)
-                                                  : Colors.transparent,
-                                          enabledBorder: OutlineInputBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(40),
-                                              borderSide: BorderSide(
-                                                color: model.passController.text
-                                                        .isEmpty
-                                                    ? Colors.transparent
-                                                    : const Color.fromRGBO(
-                                                        44, 185, 176, 1),
-                                              )),
-                                          focusedBorder: OutlineInputBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(40),
-                                              borderSide: const BorderSide(
-                                                color: Color.fromRGBO(
-                                                    44, 185, 176, 1),
-                                              )),
-                                          prefixIcon: Icon(
-                                            Icons.lock_outline_rounded,
-                                            color: model
-                                                    .passController.text.isEmpty
-                                                ? const Color(0xFF151624)
-                                                    .withOpacity(0.5)
-                                                : const Color.fromRGBO(
-                                                    44, 185, 176, 1),
-                                            size: 16,
-                                          ),
-                                          suffix: Container(
-                                            alignment: Alignment.center,
-                                            width: 24.0,
-                                            height: 24.0,
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(100.0),
-                                              color: const Color.fromRGBO(
-                                                  44, 185, 176, 1),
-                                            ),
-                                            child: model
-                                                    .passController.text.isEmpty
-                                                ? const Center()
-                                                : const Icon(
-                                                    Icons.check,
-                                                    color: Colors.white,
-                                                    size: 13,
-                                                  ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
+                                        horizontal: 16),
+                                    child: LTextField(
+                                        hintText: "Enter your password",
+                                        textCtr: model.passController),
                                   ),
                                   SizedBox(
                                     height: size.height * 0.03,
