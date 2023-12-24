@@ -5,6 +5,7 @@ import 'package:lueesa_app/ui/views/splash_screen/splash_view.dart';
 
 import '../../core/services/user_service.dart';
 import '../../ui/views/auth/login/login_view.dart';
+import '../../ui/views/pq_upload/pq_upload_screen.dart';
 import '../app_setup.locator.dart';
 
 final _userService = locator<UserService>();
@@ -30,7 +31,12 @@ class AppRoute {
           builder: (context, state) => const LoginView(),
         ),
         GoRoute(
-            path: ScreenPath.home,
-            builder: ((context, state) => const HomeView()))
+          path: ScreenPath.home,
+          builder: ((context, state) => const HomeView()),
+        ),
+        GoRoute(
+          path: ScreenPath.pastquestion,
+          builder: (context, state) => const PastQuestionUploadScreen(),
+        )
       ]);
 }
