@@ -19,15 +19,16 @@ class _HomeViewState extends State<SplashScreenView>
     with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
-    Future.delayed(const Duration(milliseconds: 4500), () {
-      context.go(ScreenPath.login);
-    });
     return ViewModelBuilder.nonReactive(
         viewModelBuilder: () => SplashScreenViewModel(),
         onViewModelReady: (viewModel) {
           viewModel.controller = AnimationController(
               vsync: this, duration: const Duration(seconds: 4));
           viewModel.controller.forward();
+          Future.delayed(const Duration(milliseconds: 4500), () {
+            viewModel.goToLogin();
+            //context.go(ScreenPath.login);
+          });
         },
         onDispose: (viewModel) {
           viewModel.controller.dispose();

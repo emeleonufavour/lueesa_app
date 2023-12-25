@@ -6,8 +6,13 @@ import 'package:firebase_storage/firebase_storage.dart';
 class StorageService {
   final FirebaseStorage _storage = FirebaseStorage.instance;
   Future<String?> uploadImage(
-      File imgFile, String imgName, String level, String courseCode) async {
-    String storagePath = "past_questions/$level/$courseCode/$imgName";
+      {required File imgFile,
+      required String imgName,
+      required String level,
+      required String courseCode,
+      required String year}) async {
+    String storagePath =
+        "past_questions/$level/${courseCode.toLowerCase()}/$year/${imgName.toLowerCase()}";
     try {
       log("uploading from service");
       Reference storageReference = _storage.ref().child(storagePath);
@@ -19,6 +24,29 @@ class StorageService {
     } catch (e) {
       log('Error uploading image: $e');
       return null;
+    }
+  }
+
+  Future<List<String>> getImagesInDirectory(
+      {required String level,
+      required String courseCode,
+      required String year}) async {
+    String directoryPath =
+        "past_questions/$level/${courseCode.toLowerCase()}/$year/";
+    try {
+      ListResult listResult =
+          await FirebaseStorage.instance.ref().child(directoryPath).list();
+      List<String> downloadUrls = [];
+
+      for (Reference item in listResult.items) {
+        String downloadUrl = await item.getDownloadURL();
+        downloadUrls.add(downloadUrl);
+      }
+
+      return downloadUrls;
+    } catch (e) {
+      log('Error fetching images: $e');
+      return [];
     }
   }
 }

@@ -3,14 +3,17 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_icon_snackbar/flutter_icon_snackbar.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lueesa_app/app/app_setup.router.dart';
 import 'package:lueesa_app/app/routing/screen_path.dart';
 import 'package:stacked/stacked.dart';
+import 'package:stacked_services/stacked_services.dart';
 
 import '../../../../app/app_setup.locator.dart';
 import '../../../../core/services/auth_service.dart';
 
 class LoginViewModel extends BaseViewModel {
   final _authService = locator<AuthService>();
+  final _navService = locator<NavigationService>();
   TextEditingController emailController = TextEditingController();
   TextEditingController passController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -60,7 +63,8 @@ class LoginViewModel extends BaseViewModel {
                 label: 'Login successful!',
                 snackBarType: SnackBarType.save);
 
-            context.go(ScreenPath.home);
+            //context.go(ScreenPath.home);
+            _navService.navigateToHomeView();
           } else {
             IconSnackBar.show(
                 context: context,

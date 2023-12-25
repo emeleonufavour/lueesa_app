@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:lueesa_app/app/routing/app_route.dart';
+import 'package:lueesa_app/core/services/user_service.dart';
 import 'package:lueesa_app/ui/style/app_theme.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:lueesa_app/ui/views/home/home.dart';
+import 'package:lueesa_app/ui/views/splash_screen/splash_view.dart';
+import 'package:stacked_services/stacked_services.dart';
 import 'app/app_setup.locator.dart';
+import 'app/app_setup.router.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -19,10 +24,10 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    AppRoute appRoute = AppRoute.instance();
-    return MaterialApp.router(
-      theme: AppTheme.lightTheme,
-      routerConfig: appRoute.routes,
-    );
+    return MaterialApp(
+        theme: AppTheme.lightTheme,
+        navigatorKey: StackedService.navigatorKey,
+        onGenerateRoute: StackedRouter().onGenerateRoute,
+        home: const SplashScreenView());
   }
 }

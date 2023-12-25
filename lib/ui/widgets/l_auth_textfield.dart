@@ -1,8 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:lueesa_app/ui/style/app_colors.dart';
 
 import '../utilities/l_text.dart';
 
-class LTextField extends StatelessWidget {
+class LAuthTextField extends StatelessWidget {
   final String? label;
   final TextEditingController textCtr;
   final String hintText;
@@ -18,7 +20,8 @@ class LTextField extends StatelessWidget {
   final Widget? suffixIcon;
   final bool obscureText;
   final String? prefixText;
-  const LTextField(
+  final bool incorrectInput;
+  const LAuthTextField(
       {this.label,
       required this.hintText,
       required this.textCtr,
@@ -33,6 +36,7 @@ class LTextField extends StatelessWidget {
       this.labelColor,
       this.suffixIcon,
       this.prefixText,
+      this.incorrectInput = true,
       this.obscureText = false,
       super.key});
 
@@ -52,53 +56,81 @@ class LTextField extends StatelessWidget {
           const SizedBox(
             height: 7,
           ),
-          Container(
-            height: size.height * (1 / 12),
-            width: double.maxFinite,
-            decoration: const BoxDecoration(
-                // color:,
-                ),
+          SizedBox(
+            height: size.height / 12,
             child: TextFormField(
+              controller: textCtr,
+              cursorColor: const Color(0xFF151624),
               obscureText: obscureText,
               keyboardType: keyboardType,
-              controller: textCtr,
+              onFieldSubmitted: onFieldSubmitted,
               validator: validate,
               onChanged: onChanged,
-              onFieldSubmitted: onFieldSubmitted,
               onEditingComplete: onEditingComplete,
-              style: TextStyle(
+              style: const TextStyle(
                   fontFamily: 'EuclidCircularA',
                   color: Colors.black,
                   fontSize: 14),
               decoration: InputDecoration(
                 prefixText: prefixText,
-                filled: true,
-                fillColor: fillColor ?? (const Color(0xFFE8EDF1)),
+                hintText: hintText,
                 hintStyle: const TextStyle(
                     fontFamily: 'EuclidCircularA',
-                    color: const Color(0xFF697D95),
+                    color: Color(0xFF697D95),
                     fontSize: 14),
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                    borderSide:
-                        const BorderSide(width: 0, style: BorderStyle.none)),
-                hintText: hintText,
-                prefixIcon: prefixIcon,
-                suffixIcon: suffixIcon,
+                filled: true,
+                fillColor: textCtr.text.isEmpty
+                    ? const Color.fromRGBO(248, 247, 251, 1)
+                    : Colors.transparent,
+                enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(40),
+                    borderSide: BorderSide(
+                      color: textCtr.text.isEmpty
+                          ? Colors.transparent
+                          : AppColor.darkBlue,
+                    )),
+                focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(40),
+                    borderSide: const BorderSide(
+                      color: AppColor.darkBlue,
+                    )),
+                prefixIcon: Icon(
+                  Icons.lock_outline_rounded,
+                  color: textCtr.text.isEmpty
+                      ? const Color(0xFF151624).withOpacity(0.5)
+                      : AppColor.darkBlue,
+                  size: 16,
+                ),
+                suffix: Container(
+                  alignment: Alignment.center,
+                  width: 24.0,
+                  height: 24.0,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(100.0),
+                    color: incorrectInput ? Colors.red : Colors.blueAccent,
+                  ),
+                  child: textCtr.text.isEmpty
+                      ? const Center()
+                      : Icon(
+                          incorrectInput ? CupertinoIcons.xmark : Icons.check,
+                          color: Colors.white,
+                          size: 13,
+                        ),
+                ),
               ),
             ),
-          )
+          ),
         ]));
   }
 
-  LTextField copyWith(
+  LAuthTextField copyWith(
           {String? label,
           String? hintText,
           TextEditingController? textCtr,
           Color? labelColor,
           EdgeInsetsGeometry? textFieldPadding,
           Color? fillColor}) =>
-      LTextField(
+      LAuthTextField(
         label: label ?? this.label,
         hintText: hintText ?? this.hintText,
         textCtr: textCtr ?? this.textCtr,

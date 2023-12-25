@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lueesa_app/app/routing/screen_path.dart';
+import 'package:lueesa_app/ui/utilities/l_text.dart';
 import 'package:lueesa_app/ui/views/home/home_vm.dart';
 import 'package:stacked/stacked.dart';
+
+import '../../style/app_assets.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
@@ -17,37 +20,71 @@ class HomeView extends StatelessWidget {
                 child: ListView(
                   padding: EdgeInsets.zero,
                   children: [
-                    const DrawerHeader(
-                        decoration: BoxDecoration(color: Colors.blue),
-                        child: Text("Header")),
+                    DrawerHeader(
+                        child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: AppAssets.lueesaLogo(100))),
                     ListTile(
-                      title: const Text("Upload image"),
-                      onTap: () => context.go(ScreenPath.pastquestion),
+                      leading: const Icon(
+                        Icons.image,
+                        color: Colors.black,
+                      ),
+                      title: const TextWidget(
+                        text: "Upload image",
+                        fontWeight: FontWeight.bold,
+                      ),
+                      onTap: () => viewModel.goToPastQuestionsUpload(),
                     ),
                     ListTile(
-                      title: const Text("Past Questions"),
+                      leading: const Icon(
+                        Icons.question_mark,
+                        color: Colors.black,
+                      ),
+                      title: const TextWidget(
+                        text: "Past Questions",
+                        fontWeight: FontWeight.bold,
+                      ),
+                      onTap: () => viewModel.goToPastQuestionsView(),
                     ),
                     ListTile(
-                      title: const Text("Time table"),
+                      leading: const Icon(
+                        Icons.table_chart,
+                        color: Colors.black,
+                      ),
+                      title: const TextWidget(
+                        text: "Time table",
+                        fontWeight: FontWeight.bold,
+                      ),
+                      onTap: () {},
                     ),
                     ListTile(
-                      title: const Text("Course Information"),
+                      leading: const Icon(
+                        Icons.subject,
+                        color: Colors.black,
+                      ),
+                      title: const TextWidget(
+                        text: "Course Information",
+                        fontWeight: FontWeight.bold,
+                      ),
+                      onTap: () {},
                     ),
                     ListTile(
-                      title: const Text("LUEESA Excos"),
+                      leading: const Icon(
+                        Icons.person,
+                        color: Colors.black,
+                      ),
+                      title: const TextWidget(
+                        text: "Executives",
+                        fontWeight: FontWeight.bold,
+                      ),
+                      onTap: () {},
                     ),
                   ],
                 ),
               ),
               body: Center(
                 child: Column(
-                  children: [
-                    if (viewModel.imgFile != null)
-                      Image.file(viewModel.imgFile!),
-                    IconButton(
-                        onPressed: () => viewModel.uploadToFirebase(),
-                        icon: const Icon(Icons.upload)),
-                  ],
+                  children: [],
                 ),
               ),
             )));

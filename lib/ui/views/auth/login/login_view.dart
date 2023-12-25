@@ -9,7 +9,7 @@ import 'package:lueesa_app/ui/style/app_assets.dart';
 import 'package:lueesa_app/ui/style/app_colors.dart';
 import 'package:gap/gap.dart';
 import 'package:lueesa_app/ui/utilities/l_text.dart';
-import 'package:lueesa_app/ui/widgets/l_textfield.dart';
+import 'package:lueesa_app/ui/widgets/l_auth_textfield.dart';
 import 'package:stacked/stacked.dart';
 
 import '../../../utilities/l_validator.dart';
@@ -89,7 +89,7 @@ class LoginView extends StatelessWidget {
                                     Padding(
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 16.0),
-                                        child: LTextField(
+                                        child: LAuthTextField(
                                             keyboardType:
                                                 TextInputType.emailAddress,
                                             incorrectInput:
@@ -115,7 +115,7 @@ class LoginView extends StatelessWidget {
                                     Padding(
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 16),
-                                      child: LTextField(
+                                      child: LAuthTextField(
                                         incorrectInput: model.incorrectPassword,
                                         hintText: "Enter your password",
                                         keyboardType:
