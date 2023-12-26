@@ -27,7 +27,7 @@ class StorageService {
     }
   }
 
-  Future<List<String>> getImagesInDirectory(
+  Future<List<Map<String, String>>> getImagesInDirectory(
       {required String level,
       required String courseCode,
       required String year}) async {
@@ -36,14 +36,17 @@ class StorageService {
     try {
       ListResult listResult =
           await FirebaseStorage.instance.ref().child(directoryPath).list();
-      List<String> downloadUrls = [];
+      List<Map<String, String>> contents = [];
 
       for (Reference item in listResult.items) {
         String downloadUrl = await item.getDownloadURL();
-        downloadUrls.add(downloadUrl);
+        String name = item.name;
+        log("Name => ${item.name}");
+        contents.add({"name": name, "downloadUrl": downloadUrl});
+        // downloadUrls.add(downloadUrl);
       }
 
-      return downloadUrls;
+      return contents;
     } catch (e) {
       log('Error fetching images: $e');
       return [];

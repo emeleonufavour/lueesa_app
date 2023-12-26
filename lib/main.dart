@@ -5,6 +5,7 @@ import 'package:lueesa_app/ui/style/app_theme.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:lueesa_app/ui/views/home/home.dart';
 import 'package:lueesa_app/ui/views/splash_screen/splash_view.dart';
+import 'package:lueesa_app/ui/views/test.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'app/app_setup.locator.dart';
 import 'app/app_setup.router.dart';

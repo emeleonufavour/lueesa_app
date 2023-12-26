@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:lueesa_app/ui/style/app_colors.dart';
 import 'package:lueesa_app/ui/utilities/l_text.dart';
 import 'package:lueesa_app/ui/widgets/l_button.dart';
@@ -10,6 +11,7 @@ import 'package:stacked/stacked.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 
+import '../../widgets/image_box.dart';
 import 'pq_view_vm.dart';
 
 class PQViewScreen extends StatelessWidget {
@@ -74,47 +76,35 @@ class PQViewScreen extends StatelessWidget {
                           ),
                         ),
                         if (viewModel.isBusy)
-                          const Center(
-                            child: CircularProgressIndicator(),
+                          Center(
+                            child: Lottie.asset(
+                                "assets/lotties/hand-loading.json",
+                                animate: true,
+                                repeat: true),
                           ),
-                        if (viewModel.downloadUrls.isNotEmpty)
+                        if (viewModel.contents.isNotEmpty)
                           ListView.builder(
                             shrinkWrap: true,
-                            itemCount: viewModel.downloadUrls.length,
+                            itemCount: viewModel.contents.length,
                             itemBuilder: (context, index) {
-                              String imageUrl = viewModel.downloadUrls[index];
-                              return Image.network(imageUrl);
+                              String name = viewModel.contents[index]["name"]!;
+                              String imageUrl =
+                                  viewModel.contents[index]["downloadUrl"]!;
+                              return Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 15.0),
+                                child: ImageBox(
+                                    name: name,
+                                    imageUrl: imageUrl,
+                                    download: () async =>
+                                        await viewModel.saveToGallery()
+                                    // await viewModel.download(
+                                    //     downloadUrl: imageUrl,
+                                    //     fileName: name),
+                                    ),
+                              );
                             },
                           ),
-
-                        // FutureBuilder(
-                        //   future: viewModel.getPapers(),
-                        //   builder:
-                        //       (context, AsyncSnapshot<List<String>> snapshot) {
-                        //     if (snapshot.connectionState ==
-                        //         ConnectionState.waiting) {
-                        //       return const CircularProgressIndicator(); // Loading indicator while URLs are being fetched
-                        //     }
-
-                        //     if (snapshot.hasError) {
-                        //       return Text('Error: ${snapshot.error}');
-                        //     }
-
-                        //     if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                        //       return const Text('No images available');
-                        //     }
-
-                        //     // Display the images in a ListView
-                        //     return ListView.builder(
-                        //       shrinkWrap: true,
-                        //       itemCount: snapshot.data!.length,
-                        //       itemBuilder: (context, index) {
-                        //         String imageUrl = snapshot.data![index];
-                        //         return Image.network(imageUrl);
-                        //       },
-                        //     );
-                        //   },
-                        // )
                       ],
                     ),
                   ),
