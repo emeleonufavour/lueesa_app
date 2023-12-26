@@ -68,7 +68,7 @@ class LoginView extends StatelessWidget {
 
                       //Main card
                       Positioned(
-                        bottom: 20.0,
+                        bottom: 75.0,
                         child: Form(
                           key: model.formKey,
                           child: Column(
