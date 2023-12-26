@@ -94,14 +94,16 @@ class PQViewScreen extends StatelessWidget {
                                 padding:
                                     const EdgeInsets.symmetric(vertical: 15.0),
                                 child: ImageBox(
-                                    name: name,
-                                    imageUrl: imageUrl,
-                                    download: () async =>
-                                        await viewModel.saveToGallery()
-                                    // await viewModel.download(
-                                    //     downloadUrl: imageUrl,
-                                    //     fileName: name),
-                                    ),
+                                  name: name,
+                                  imageUrl: imageUrl,
+                                  download: () async =>
+                                      await viewModel.saveToGallery(
+                                          downloadUrl: imageUrl,
+                                          fileName: name,
+                                          context: context),
+                                  isDownloading: viewModel.isDownloading,
+                                  downloadProgress: viewModel.progress,
+                                ),
                               );
                             },
                           ),

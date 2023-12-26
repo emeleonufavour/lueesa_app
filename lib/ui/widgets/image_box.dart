@@ -6,11 +6,15 @@ import '../utilities/l_text.dart';
 class ImageBox extends StatelessWidget {
   final String name;
   final String imageUrl;
+  bool isDownloading;
+  double downloadProgress;
   final void Function()? download;
-  const ImageBox(
+  ImageBox(
       {required this.name,
       required this.imageUrl,
       required this.download,
+      required this.isDownloading,
+      required this.downloadProgress,
       super.key});
 
   @override
@@ -34,14 +38,19 @@ class ImageBox extends StatelessWidget {
                   children: [
                     //question name
                     TextWidget(text: name),
-                    GestureDetector(
-                      onTap: download,
-                      child: const TextWidget(
-                        text: "Download",
-                        color: AppColor.blue,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+
+                    isDownloading
+                        ? const CircularProgressIndicator(
+                            strokeWidth: 2,
+                          )
+                        : GestureDetector(
+                            onTap: download,
+                            child: const TextWidget(
+                              text: "Download",
+                              color: AppColor.blue,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                   ],
                 ),
               ),

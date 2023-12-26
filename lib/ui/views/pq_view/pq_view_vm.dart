@@ -1,31 +1,34 @@
+import 'dart:async';
 import 'dart:developer';
-//import 'dart:html';
 import 'dart:io';
 
-//import 'package:dio/dio.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icon_snackbar/flutter_icon_snackbar.dart';
+import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:lueesa_app/core/services/storage_service.dart';
 import 'package:path_provider/path_provider.dart';
-//import 'package:permission_handler/permission_handler.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:stacked/stacked.dart';
 
 import '../../../app/app_setup.locator.dart';
 
-class PQViewViewModel extends BaseViewModel {
+class PQViewViewModel extends BaseViewModel with ListenableServiceMixin {
   final _storageService = locator<StorageService>();
   TextEditingController courseCodeCtr = TextEditingController();
   TextEditingController sessionCtr = TextEditingController();
-  //final status = Permission.storage.status;
+  final status = Permission.manageExternalStorage.status;
   List<Map<String, String>> contents = [];
   String? _level;
   bool _isDownloading = false;
-  String _progress = "0";
+  //String _progress = "0";
+  final ReactiveValue<double> _progress = ReactiveValue<double>(0.0);
+  StreamController<double> _streamController = StreamController<double>();
   bool _isDownloaded = false;
 
   String? get level => _level;
   bool get isDownloading => _isDownloading;
-  String get progress => _progress;
+  double get progress => _progress.value;
   bool get isDownloaded => _isDownloaded;
 
   set level(String? value) {
@@ -33,8 +36,8 @@ class PQViewViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  set progress(String value) {
-    _progress = value;
+  set progress(double value) {
+    _progress.value = value;
     notifyListeners();
   }
 
@@ -44,7 +47,7 @@ class PQViewViewModel extends BaseViewModel {
   }
 
   set isDownloading(bool value) {
-    _isDownloading = true;
+    _isDownloading = value;
     notifyListeners();
   }
 
@@ -71,45 +74,83 @@ class PQViewViewModel extends BaseViewModel {
     setBusy(false);
   }
 
-  download({required String downloadUrl, required String fileName}) async {
-    // log("Starting download...");
-    // isDownloading = true;
-    // String savePath = await getFilePath(fileName);
-    // log("File path ==> $savePath");
+  download(
+      {required String downloadUrl,
+      required String fileName,
+      required BuildContext context}) async {
+    log("Starting download...");
+    isDownloading = true;
+    String savePath = await getFilePath(fileName);
+    log("File path ==> $savePath");
 
-    // Dio dio = Dio();
+    Dio dio = Dio();
 
-    // dio.download(downloadUrl, savePath, onReceiveProgress: (rcv, total) {
-    //   log('received: ${rcv.toStringAsFixed(0)} out of total: ${total.toStringAsFixed(0)}');
+    dio.download(downloadUrl, savePath, onReceiveProgress: (rcv, total) {
+      log('received: ${rcv.toStringAsFixed(0)} out of total: ${total.toStringAsFixed(0)}');
 
-    //   progress = ((rcv / total) * 100).toStringAsFixed(0);
+      _progress.value = double.parse(((rcv / total) * 100).toStringAsFixed(0));
 
-    //   if (progress == "100") {
-    //     isDownloaded = true;
-    //     log("Download complete!");
-    //   } else if (double.parse(progress) < 100) {
-    //     log("Progress ==> $progress");
-    //   }
-    // }, deleteOnError: true).then((value) {
-    //   if (progress == "100") {
-    //     isDownloaded = true;
-    //     log("Download complete!");
-    //   }
-    //   isDownloading = false;
-    // });
+      if (_progress.value == 100) {
+        isDownloaded = true;
+        isDownloading = false;
+        notifyListeners();
+        log("isDownloading ==> $isDownloading");
+
+        log("Download complete!");
+      } else if (_progress.value < 100) {
+        log("Progress ==> ${progress / 100}");
+      }
+    }, deleteOnError: true).then((value) async {
+      if (_progress.value == 100) {
+        isDownloaded = true;
+        isDownloading = false;
+        log("isDownloading ==> $isDownloading");
+        final result = await ImageGallerySaver.saveFile(savePath);
+        log("Result from saving to gallery => ${result["isSuccess"]}");
+        if (context.mounted) {
+          IconSnackBar.show(
+              context: context,
+              label: result["isSuccess"]
+                  ? "Successfully downloaded"
+                  : "Error saving to gallery",
+              snackBarType:
+                  result["isSuccess"] ? SnackBarType.save : SnackBarType.fail);
+        }
+
+        log("Download complete!");
+      }
+    });
   }
 
-  saveToGallery() async {
-    // if (await status.isGranted) {
-    //   log("Permission is granted");
-    // } else {
-    //   PermissionStatus newStatus = await Permission.storage.request();
-    //   if (newStatus.isGranted) {
-    //     log('Storage permission granted.');
-    //   } else {
-    //     log('Storage permission denied.');
-    //   }
-    // }
+  saveToGallery(
+      {required String downloadUrl,
+      required String fileName,
+      required BuildContext context}) async {
+    if (await status.isGranted) {
+      log("Permission is granted");
+      if (context.mounted) {
+        await download(
+            downloadUrl: downloadUrl, fileName: fileName, context: context);
+      }
+    } else {
+      PermissionStatus newStatus =
+          await Permission.manageExternalStorage.request();
+      if (newStatus.isGranted) {
+        log('Storage permission granted.');
+        if (context.mounted) {
+          await download(
+              downloadUrl: downloadUrl, fileName: fileName, context: context);
+        }
+      } else {
+        log('Storage permission denied.');
+        if (context.mounted) {
+          IconSnackBar.show(
+              context: context,
+              label: "Permission denied",
+              snackBarType: SnackBarType.fail);
+        }
+      }
+    }
   }
 
   Future<String> getFilePath(uniqueFileName) async {
