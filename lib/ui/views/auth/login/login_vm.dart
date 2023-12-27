@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
@@ -17,14 +18,18 @@ class LoginViewModel extends BaseViewModel {
   TextEditingController emailController = TextEditingController();
   TextEditingController passController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  Timer? _typingTimer;
   bool _isOpen = false;
   bool _incorrectEmail = true;
   bool _incorrectPassword = true;
+  bool _resize = false;
 
   bool get isOpen => _isOpen;
   bool get incorrectEmail => _incorrectEmail;
   bool get incorrectPassword => _incorrectPassword;
   GlobalKey<FormState> get formKey => _formKey;
+  bool get resize => _resize;
+  Timer? get typingTime => _typingTimer;
 
   set open(bool value) {
     _isOpen = value;
@@ -36,9 +41,27 @@ class LoginViewModel extends BaseViewModel {
     notifyListeners();
   }
 
+  set resize(bool value) {
+    _resize = value;
+    notifyListeners();
+  }
+
   set incorrectPassword(bool value) {
     _incorrectPassword = value;
     notifyListeners();
+  }
+
+  onTextChanged() {
+    // Cancel the previous timer
+    _typingTimer?.cancel();
+
+    // Start a new timer
+    _typingTimer = Timer(const Duration(seconds: 3), () {
+      // This code will be executed when the user stops typing
+      resize = false;
+      notifyListeners();
+      log('User has stopped typing: ${passController.text} and resize => $resize');
+    });
   }
 
   Future<bool> login(BuildContext context) async {

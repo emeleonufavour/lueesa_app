@@ -1,6 +1,9 @@
+import 'dart:developer';
+
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lueesa_app/app/routing/app_route.dart';
 import 'package:lueesa_app/core/services/user_service.dart';
 import 'package:lueesa_app/ui/style/app_theme.dart';
@@ -12,6 +15,7 @@ import 'package:stacked_services/stacked_services.dart';
 import 'app/app_setup.locator.dart';
 import 'app/app_setup.router.dart';
 import 'firebase_options.dart';
+import 'ui/views/pq_upload/pq_upload_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,8 +23,13 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(DevicePreview(
-      enabled: !kReleaseMode, builder: (context) => const MainApp()));
+  Size screenSize = WidgetsBinding.instance.window.physicalSize;
+  double width = screenSize.width;
+  double height = screenSize.height;
+  //log("Height => $height and Width => $width");
+  runApp(const MainApp());
+  // runApp(DevicePreview(
+  //     enabled: !kReleaseMode, builder: (context) => const MainApp()));
 }
 
 class MainApp extends StatelessWidget {
@@ -28,13 +37,31 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        useInheritedMediaQuery: true,
-        locale: DevicePreview.locale(context),
-        builder: DevicePreview.appBuilder,
-        theme: AppTheme.lightTheme,
-        navigatorKey: StackedService.navigatorKey,
-        onGenerateRoute: StackedRouter().onGenerateRoute,
-        home: const SplashScreenView());
+    // double width = MediaQuery.of(context).size.width;
+    // double height = MediaQuery.of(context).size.height;
+    // log("Height ==> $height and Width ==> $width");
+    return GestureDetector(
+      onTap: () {
+        FocusScopeNode currentFocus = FocusScope.of(context);
+        if (!currentFocus.hasPrimaryFocus) {
+          currentFocus.unfocus();
+        }
+      },
+      child: ScreenUtilInit(
+        splitScreenMode: true,
+        minTextAdapt: true,
+        designSize: const Size(412, 890),
+        builder: (context, child) => MaterialApp(
+            // useInheritedMediaQuery: true,
+            // locale: DevicePreview.locale(context),
+            // builder: DevicePreview.appBuilder,
+            theme: AppTheme.lightTheme,
+            navigatorKey: StackedService.navigatorKey,
+            onGenerateRoute: StackedRouter().onGenerateRoute,
+            home: const SplashScreenView()),
+      ),
+    );
   }
 }
+//  Height => 2337.0 and Width => 1080.0
+// Height ==> 890.2857142857143 and Width ==> 411.42857142857144

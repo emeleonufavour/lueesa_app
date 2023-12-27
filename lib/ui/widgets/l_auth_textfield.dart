@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lueesa_app/ui/style/app_colors.dart';
 
 import '../utilities/l_text.dart';
@@ -50,11 +51,11 @@ class LAuthTextField extends StatelessWidget {
             TextWidget(
               text: label!,
               fontWeight: FontWeight.w500,
-              fontsize: 14,
+              fontsize: 14.sp,
               color: (labelColor ?? const Color(0xff101828)),
             ),
-          const SizedBox(
-            height: 7,
+          SizedBox(
+            height: 7.h,
           ),
           SizedBox(
             height: size.height / 12,
@@ -67,17 +68,17 @@ class LAuthTextField extends StatelessWidget {
               validator: validate,
               onChanged: onChanged,
               onEditingComplete: onEditingComplete,
-              style: const TextStyle(
+              style: TextStyle(
                   fontFamily: 'EuclidCircularA',
                   color: Colors.black,
-                  fontSize: 14),
+                  fontSize: 14.sp),
               decoration: InputDecoration(
                 prefixText: prefixText,
                 hintText: hintText,
-                hintStyle: const TextStyle(
+                hintStyle: TextStyle(
                     fontFamily: 'EuclidCircularA',
                     color: Color(0xFF697D95),
-                    fontSize: 14),
+                    fontSize: 14.sp),
                 filled: true,
                 fillColor: textCtr.text.isEmpty
                     ? const Color.fromRGBO(248, 247, 251, 1)
@@ -103,8 +104,8 @@ class LAuthTextField extends StatelessWidget {
                 ),
                 suffix: Container(
                   alignment: Alignment.center,
-                  width: 24.0,
-                  height: 24.0,
+                  width: 24.0.w,
+                  height: 24.0.h,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(100.0),
                     color: incorrectInput ? Colors.red : Colors.blueAccent,

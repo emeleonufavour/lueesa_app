@@ -8,6 +8,7 @@ import 'package:lueesa_app/app/routing/screen_path.dart';
 import 'package:lueesa_app/ui/style/app_assets.dart';
 import 'package:lueesa_app/ui/style/app_colors.dart';
 import 'package:gap/gap.dart';
+import 'package:lueesa_app/ui/style/app_dimensions.dart';
 import 'package:lueesa_app/ui/utilities/l_text.dart';
 import 'package:lueesa_app/ui/widgets/l_auth_textfield.dart';
 import 'package:stacked/stacked.dart';
@@ -27,10 +28,18 @@ class LoginView extends StatelessWidget {
           Future.delayed(const Duration(seconds: 1), () {
             viewModel.open = true;
           });
+          viewModel.passController.addListener(() {
+            viewModel.onTextChanged();
+          });
+        },
+        onDispose: (viewModel) {
+          viewModel.passController.dispose();
+          viewModel.emailController.dispose();
+          viewModel.typingTime?.cancel();
         },
         builder: (context, model, _) => Scaffold(
               backgroundColor: AppColor.darkBlue,
-              resizeToAvoidBottomInset: false,
+              resizeToAvoidBottomInset: model.resize,
               body: SafeArea(
                 child: SizedBox(
                   height: size.height,
@@ -111,7 +120,7 @@ class LoginView extends StatelessWidget {
                                     SizedBox(
                                       height: size.height * 0.02,
                                     ),
-
+                                    //password
                                     Padding(
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 16),
@@ -127,12 +136,13 @@ class LoginView extends StatelessWidget {
                                         textCtr: model.passController,
                                         obscureText: true,
                                         onChanged: (value) {
+                                          model.resize = true;
+                                          log("Resize => ${model.resize}");
                                           final error =
                                               LValidator.validatePassword(
                                                   value);
                                           model.incorrectPassword =
                                               !(error == null);
-                                          log("Incorrect password ==> ${model.incorrectPassword}");
                                         },
                                       ),
                                     ),
@@ -213,8 +223,12 @@ class LoginView extends StatelessWidget {
 
                       AnimatedPositioned(
                         duration: const Duration(seconds: 1),
-                        top: model.isOpen ? 200 : -200,
-                        left: size.width * 0.38,
+                        top: model.isOpen
+                            ? (model.resize
+                                ? -100
+                                : LDimensions.height(0.18, context))
+                            : -200,
+                        left: size.width * 0.39,
                         child: AppAssets.lueesaLogo(100),
                       ),
                     ],

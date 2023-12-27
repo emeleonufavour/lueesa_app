@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../style/app_colors.dart';
 import '../utilities/l_text.dart';
@@ -24,7 +25,7 @@ class ImageBox extends StatelessWidget {
       elevation: 5,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       child: Container(
-          height: 75,
+          height: 75.h,
           width: double.maxFinite,
           decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
           child:
@@ -40,8 +41,8 @@ class ImageBox extends StatelessWidget {
                     TextWidget(text: name),
 
                     isDownloading
-                        ? const CircularProgressIndicator(
-                            strokeWidth: 2,
+                        ? CircularProgressIndicator(
+                            strokeWidth: 2.w,
                           )
                         : GestureDetector(
                             onTap: download,

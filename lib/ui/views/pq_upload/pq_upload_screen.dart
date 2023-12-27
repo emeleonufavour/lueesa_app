@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:lueesa_app/ui/views/pq_upload/pq_upload_vm.dart';
 import 'package:lueesa_app/ui/widgets/l_auth_textfield.dart';
@@ -20,9 +21,20 @@ class PastQuestionUploadScreen extends StatelessWidget {
     final size = MediaQuery.sizeOf(context);
     return ViewModelBuilder.reactive(
         viewModelBuilder: () => PQViewModel(),
+        onViewModelReady: (viewModel) {
+          viewModel.sessionCtr.addListener(() {
+            viewModel.onTextChanged();
+          });
+        },
+        onDispose: (viewModel) {
+          viewModel.courseCodeCtr.dispose();
+          viewModel.imgNameCtr.dispose();
+          viewModel.sessionCtr.dispose();
+          viewModel.typingTime?.cancel();
+        },
         builder: (context, model, _) => Scaffold(
               backgroundColor: AppColor.darkBlue,
-              //resizeToAvoidBottomInset: false,
+              resizeToAvoidBottomInset: model.resize,
               body: SafeArea(
                 child: SizedBox(
                   height: size.height,
@@ -62,89 +74,185 @@ class PastQuestionUploadScreen extends StatelessWidget {
                       AnimatedPositioned(
                         duration: const Duration(milliseconds: 300),
                         bottom: model.tapped ? 30.0 : 100,
-                        child: AnimatedContainer(
-                          duration: const Duration(milliseconds: 300),
-                          //   alignment: Alignment.topCenter,
-                          padding: const EdgeInsets.symmetric(vertical: 20)
-                              .copyWith(bottom: 15),
-                          width: size.width * 0.95,
-                          height: model.tapped
-                              ? size.height * 0.9
-                              : size.height * 0.7,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20.0),
-                            color: Colors.white,
-                          ),
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 15),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                //Enter image name
-                                LTextField(
-                                    label: "Image name",
-                                    hintText: "Enter image name",
-                                    textCtr: model.imgNameCtr),
-                                GestureDetector(
-                                  onTap: () {
-                                    model.tapped = !model.tapped;
-                                    log("Tapped => ${model.tapped}");
-                                  },
-                                  child: LDropDown(
-                                    label: "Course Level",
-                                    dropDownList: const [
-                                      "500",
-                                      "400",
-                                      "300",
-                                      "200",
-                                      "100"
-                                    ],
-                                    hintText: "Choose course level",
-                                    dropDownHeight: size.height * 0.2,
-                                    text: model.level,
-                                    onChanged: (value) {
-                                      model.level = value;
-                                    },
-                                    tapped: model.tapped,
-                                    onTapped: (bool? value) {
-                                      model.tapped = value!;
-                                    },
-                                  ),
+                        child: LayoutBuilder(builder: (context, constraints) {
+                          double heigth = size.height;
+                          double width = size.width;
+                          //log("Height ==> ${size.height} and Width ==> ${size.width}");
+                          if ((heigth <= 650 && width == 360) ||
+                              (heigth == 732 && width == 412)) {
+                            return AnimatedContainer(
+                              duration: const Duration(milliseconds: 300),
+                              //   alignment: Alignment.topCenter,
+                              padding: EdgeInsets.symmetric(vertical: 20.h)
+                                  .copyWith(bottom: 15.h),
+                              width: size.width * 0.95,
+                              height: model.tapped
+                                  ? size.height * 0.97
+                                  : size.height * 0.8,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20.0),
+                                color: Colors.white,
+                              ),
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 15.w),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    //Enter image name
+                                    LTextField(
+                                        label: "Image name",
+                                        hintText: "Enter image name",
+                                        textCtr: model.imgNameCtr),
+                                    GestureDetector(
+                                      onTap: () {
+                                        model.tapped = !model.tapped;
+                                        log("Tapped => ${model.tapped}");
+                                      },
+                                      child: LDropDown(
+                                        label: "Course Level",
+                                        dropDownList: const [
+                                          "500",
+                                          "400",
+                                          "300",
+                                          "200",
+                                          "100"
+                                        ],
+                                        hintText: "Choose course level",
+                                        dropDownHeight: size.height * 0.2,
+                                        text: model.level,
+                                        onChanged: (value) {
+                                          model.level = value;
+                                        },
+                                        tapped: model.tapped,
+                                        onTapped: (bool? value) {
+                                          model.tapped = value!;
+                                        },
+                                      ),
+                                    ),
+                                    LTextField(
+                                        label: "Course code",
+                                        hintText: "Enter course code",
+                                        textCtr: model.courseCodeCtr),
+                                    LTextField(
+                                        label: "Session",
+                                        hintText: "2023/24",
+                                        textCtr: model.sessionCtr),
+                                    LButton(
+                                      label: model.imgFile == null
+                                          ? "Pick image"
+                                          : model.imgFile!.path.split('/').last,
+                                      color: AppColor.darkBlue,
+                                      fct: () {
+                                        model.pickImage();
+                                      },
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 15),
+                                      child: LButton(
+                                        label: "Upload image",
+                                        buttonWidget: model.isBusy
+                                            ? const CircularProgressIndicator(
+                                                color: Colors.white,
+                                              )
+                                            : null,
+                                        color: Colors.red,
+                                        fct: () => model.uploadImage(context),
+                                      ),
+                                    )
+                                  ],
                                 ),
-                                LTextField(
-                                    label: "Course code",
-                                    hintText: "Enter course code",
-                                    textCtr: model.courseCodeCtr),
-                                LTextField(
-                                    label: "Session",
-                                    hintText: "2023/24",
-                                    textCtr: model.sessionCtr),
-                                LButton(
-                                  label: model.imgFile == null
-                                      ? "Pick image"
-                                      : model.imgFile!.path.split('/').last,
-                                  color: AppColor.darkBlue,
-                                  fct: () {
-                                    model.pickImage();
-                                  },
+                              ),
+                            );
+                          } else {
+                            return AnimatedContainer(
+                              duration: const Duration(milliseconds: 300),
+                              //   alignment: Alignment.topCenter,
+                              padding: EdgeInsets.symmetric(vertical: 20.h)
+                                  .copyWith(bottom: 15.h),
+                              width: size.width * 0.95,
+                              height: model.tapped
+                                  ? size.height * 0.9
+                                  : size.height * 0.7,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20.0),
+                                color: Colors.white,
+                              ),
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 15.w),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    //Enter image name
+                                    LTextField(
+                                        label: "Image name",
+                                        hintText: "Enter image name",
+                                        textCtr: model.imgNameCtr),
+                                    GestureDetector(
+                                      onTap: () {
+                                        model.tapped = !model.tapped;
+                                        log("Tapped => ${model.tapped}");
+                                      },
+                                      child: LDropDown(
+                                        label: "Course Level",
+                                        dropDownList: const [
+                                          "500",
+                                          "400",
+                                          "300",
+                                          "200",
+                                          "100"
+                                        ],
+                                        hintText: "Choose course level",
+                                        dropDownHeight: size.height * 0.2,
+                                        text: model.level,
+                                        onChanged: (value) {
+                                          model.level = value;
+                                        },
+                                        tapped: model.tapped,
+                                        onTapped: (bool? value) {
+                                          model.tapped = value!;
+                                        },
+                                      ),
+                                    ),
+                                    LTextField(
+                                        label: "Course code",
+                                        hintText: "Enter course code",
+                                        textCtr: model.courseCodeCtr),
+                                    LTextField(
+                                        label: "Session",
+                                        hintText: "2023/24",
+                                        onChanged: (p0) {
+                                          model.resize = true;
+                                          log("Resize => ${model.resize}");
+                                        },
+                                        textCtr: model.sessionCtr),
+                                    LButton(
+                                      label: model.imgFile == null
+                                          ? "Pick image"
+                                          : model.imgFile!.path.split('/').last,
+                                      color: AppColor.darkBlue,
+                                      fct: () {
+                                        model.pickImage();
+                                      },
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 15),
+                                      child: LButton(
+                                        label: "Upload image",
+                                        buttonWidget: model.isBusy
+                                            ? const CircularProgressIndicator(
+                                                color: Colors.white,
+                                              )
+                                            : null,
+                                        color: Colors.red,
+                                        fct: () => model.uploadImage(context),
+                                      ),
+                                    )
+                                  ],
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 15),
-                                  child: LButton(
-                                    label: "Upload image",
-                                    buttonWidget: model.isBusy
-                                        ? const CircularProgressIndicator(
-                                            color: Colors.white,
-                                          )
-                                        : null,
-                                    color: Colors.red,
-                                    fct: () => model.uploadImage(context),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
+                              ),
+                            );
+                          }
+                        }),
                       ),
                     ],
                   ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class TextWidget extends StatelessWidget {
   const TextWidget({
@@ -25,7 +26,7 @@ class TextWidget extends StatelessWidget {
       style: TextStyle(
         overflow: overflow,
         fontFamily: 'EuclidCircularA',
-        fontSize: fontsize ?? 16,
+        fontSize: fontsize ?? 16.sp,
         fontWeight: fontWeight ?? FontWeight.w500,
         color: color,
         decoration: lineThrough,

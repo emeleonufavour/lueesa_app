@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lueesa_app/app/routing/screen_path.dart';
@@ -52,8 +53,8 @@ class _HomeViewState extends State<SplashScreenView>
                           origin: Offset(0.5, 0.5),
                           child: SvgPicture.asset(
                             'assets/svg/luessaLogo.svg', // Replace with your SVG asset path
-                            width: 200, // Adjust width as needed
-                            height: 200, // Adjust height as needed
+                            width: 200.w, // Adjust width as needed
+                            height: 200.h, // Adjust height as needed
                           ),
                         )),
                       ),

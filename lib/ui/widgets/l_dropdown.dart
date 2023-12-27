@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../utilities/l_text.dart';
 
@@ -44,10 +45,10 @@ class _TpDropDownState extends State<LDropDown>
             color: const Color(0xff101828),
             text: widget.label,
             fontWeight: FontWeight.w500,
-            fontsize: 14,
+            fontsize: 14.sp,
           ),
           SizedBox(
-            height: 7,
+            height: 7.h,
           ),
           Container(
             width: double.maxFinite,
@@ -59,7 +60,7 @@ class _TpDropDownState extends State<LDropDown>
                   text: widget.text ?? widget.hintText,
                   fontWeight: FontWeight.w500,
                   color: const Color(0xFF697D95),
-                  fontsize: 14),
+                  fontsize: 14.sp),
               trailing: _isDropDown
                   ? Transform.rotate(
                       angle: 3.14159, // 180 degrees in radians
@@ -112,7 +113,7 @@ class _TpDropDownState extends State<LDropDown>
                           color: const Color(0xff0D0D0D),
                           text: e,
                           fontWeight: FontWeight.w500,
-                          fontsize: 15),
+                          fontsize: 15.sp),
                     ),
                   );
                 })

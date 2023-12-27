@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
 
@@ -16,10 +17,14 @@ class PQViewModel extends BaseViewModel {
   String? _level;
   TextEditingController courseCodeCtr = TextEditingController();
   TextEditingController sessionCtr = TextEditingController();
+  Timer? _typingTimer;
   bool _tapped = false;
+  bool _resize = false;
 
   String? get level => _level;
   bool get tapped => _tapped;
+  bool get resize => _resize;
+  Timer? get typingTime => _typingTimer;
 
   set tapped(bool value) {
     _tapped = value;
@@ -30,6 +35,24 @@ class PQViewModel extends BaseViewModel {
     _level = value;
 
     notifyListeners();
+  }
+
+  set resize(bool value) {
+    _resize = value;
+    notifyListeners();
+  }
+
+  onTextChanged() {
+    // Cancel the previous timer
+    _typingTimer?.cancel();
+
+    // Start a new timer
+    _typingTimer = Timer(const Duration(seconds: 3), () {
+      // This code will be executed when the user stops typing
+      resize = false;
+      notifyListeners();
+      log('User has stopped typing: ${sessionCtr.text} and resize => $resize');
+    });
   }
 
   Future<void> pickImage() async {

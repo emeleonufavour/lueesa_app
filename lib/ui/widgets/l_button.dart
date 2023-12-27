@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../utilities/l_text.dart';
 
@@ -40,8 +41,8 @@ class LButton extends StatelessWidget {
         alignment: Alignment.center,
         width: double.maxFinite,
         padding: EdgeInsets.symmetric(
-          horizontal: horizontalPadding ?? 10,
-          vertical: verticalPadding ?? 14,
+          horizontal: horizontalPadding ?? 10.w,
+          vertical: verticalPadding ?? 14.h,
         ),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(32),
@@ -56,7 +57,7 @@ class LButton extends StatelessWidget {
               textAlign: TextAlign.center,
               text: label,
               fontWeight: FontWeight.w700,
-              fontsize: 15,
+              fontsize: 15.sp,
               color: textColor ?? Colors.white,
             ),
       ),
