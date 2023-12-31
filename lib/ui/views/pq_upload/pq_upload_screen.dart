@@ -131,11 +131,16 @@ class PastQuestionUploadScreen extends StatelessWidget {
                                     ),
                                     LTextField(
                                         label: "Course code",
-                                        hintText: "Enter course code",
+                                        hintText:
+                                            "Enter course code eg. eie314",
                                         textCtr: model.courseCodeCtr),
                                     LTextField(
                                         label: "Session",
-                                        hintText: "2023/24",
+                                        hintText: "Enter session eg. 2023_24",
+                                        onChanged: (p0) {
+                                          model.resize = true;
+                                          log("Resize => ${model.resize}");
+                                        },
                                         textCtr: model.sessionCtr),
                                     LButton(
                                       label: model.imgFile == null
@@ -215,11 +220,12 @@ class PastQuestionUploadScreen extends StatelessWidget {
                                     ),
                                     LTextField(
                                         label: "Course code",
-                                        hintText: "Enter course code",
+                                        hintText:
+                                            "Enter course code eg. eie314",
                                         textCtr: model.courseCodeCtr),
                                     LTextField(
                                         label: "Session",
-                                        hintText: "2023/24",
+                                        hintText: "Enter session eg. 2023_24",
                                         onChanged: (p0) {
                                           model.resize = true;
                                           log("Resize => ${model.resize}");

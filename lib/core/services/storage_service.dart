@@ -12,7 +12,7 @@ class StorageService {
       required String courseCode,
       required String year}) async {
     String storagePath =
-        "past_questions/$level/${courseCode.toLowerCase()}/$year/${imgName.toLowerCase()}";
+        "past_questions/$level/${courseCode.trim().toLowerCase()}/$year/${imgName.toLowerCase()}";
     try {
       log("uploading from service");
       Reference storageReference = _storage.ref().child(storagePath);
@@ -32,7 +32,7 @@ class StorageService {
       required String courseCode,
       required String year}) async {
     String directoryPath =
-        "past_questions/$level/${courseCode.toLowerCase()}/$year/";
+        "past_questions/$level/${courseCode.trim().toLowerCase()}/$year/";
     try {
       ListResult listResult =
           await FirebaseStorage.instance.ref().child(directoryPath).list();
