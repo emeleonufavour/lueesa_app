@@ -55,7 +55,7 @@ class HomeView extends StatelessWidget {
                         text: "Time table",
                         fontWeight: FontWeight.bold,
                       ),
-                      onTap: () {},
+                      onTap: () => viewModel.goToTimeTable(),
                     ),
                     ListTile(
                       leading: const Icon(

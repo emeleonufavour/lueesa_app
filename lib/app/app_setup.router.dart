@@ -11,8 +11,9 @@ import 'package:lueesa_app/ui/views/home/home.dart' as _i4;
 import 'package:lueesa_app/ui/views/pq_upload/pq_upload_screen.dart' as _i5;
 import 'package:lueesa_app/ui/views/pq_view/pq_view_screen.dart' as _i6;
 import 'package:lueesa_app/ui/views/splash_screen/splash_view.dart' as _i2;
+import 'package:lueesa_app/ui/views/time_table/time_table_view.dart' as _i7;
 import 'package:stacked/stacked.dart' as _i1;
-import 'package:stacked_services/stacked_services.dart' as _i7;
+import 'package:stacked_services/stacked_services.dart' as _i8;
 
 class Routes {
   static const splashScreenView = '/';
@@ -25,12 +26,15 @@ class Routes {
 
   static const pQViewScreen = '/p-qview-screen';
 
+  static const timeTableView = '/time-table-view';
+
   static const all = <String>{
     splashScreenView,
     loginView,
     homeView,
     pastQuestionUploadScreen,
     pQViewScreen,
+    timeTableView,
   };
 }
 
@@ -55,6 +59,10 @@ class StackedRouter extends _i1.RouterBase {
     _i1.RouteDef(
       Routes.pQViewScreen,
       page: _i6.PQViewScreen,
+    ),
+    _i1.RouteDef(
+      Routes.timeTableView,
+      page: _i7.TimeTableView,
     ),
   ];
 
@@ -89,6 +97,12 @@ class StackedRouter extends _i1.RouterBase {
         settings: data,
       );
     },
+    _i7.TimeTableView: (data) {
+      return _i1.buildAdaptivePageRoute<dynamic>(
+        builder: (context) => const _i7.TimeTableView(),
+        settings: data,
+      );
+    },
   };
 
   @override
@@ -98,7 +112,7 @@ class StackedRouter extends _i1.RouterBase {
   Map<Type, _i1.StackedRouteFactory> get pagesMap => _pagesMap;
 }
 
-extension NavigatorStateExtension on _i7.NavigationService {
+extension NavigatorStateExtension on _i8.NavigationService {
   Future<dynamic> navigateToSplashScreenView([
     int? routerId,
     bool preventDuplicates = true,
@@ -169,6 +183,20 @@ extension NavigatorStateExtension on _i7.NavigationService {
         transition: transition);
   }
 
+  Future<dynamic> navigateToTimeTableView([
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  ]) async {
+    return navigateTo<dynamic>(Routes.timeTableView,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
   Future<dynamic> replaceWithSplashScreenView([
     int? routerId,
     bool preventDuplicates = true,
@@ -233,6 +261,20 @@ extension NavigatorStateExtension on _i7.NavigationService {
         transition,
   ]) async {
     return replaceWith<dynamic>(Routes.pQViewScreen,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
+  Future<dynamic> replaceWithTimeTableView([
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  ]) async {
+    return replaceWith<dynamic>(Routes.timeTableView,
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,

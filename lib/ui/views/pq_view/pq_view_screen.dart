@@ -6,6 +6,7 @@ import 'package:lueesa_app/ui/style/app_colors.dart';
 import 'package:lueesa_app/ui/utilities/l_text.dart';
 import 'package:lueesa_app/ui/widgets/l_button.dart';
 import 'package:lueesa_app/ui/widgets/l_dropdown.dart';
+import 'package:lueesa_app/ui/widgets/l_get_button.dart';
 import 'package:lueesa_app/ui/widgets/l_textfield.dart';
 import 'package:stacked/stacked.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -56,25 +57,29 @@ class PQViewScreen extends StatelessWidget {
                             label: "Session",
                             hintText: "Type in session eg. 2023_24",
                             textCtr: viewModel.sessionCtr),
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: GestureDetector(
-                            onTap: () async =>
-                                await viewModel.getPapers(context),
-                            child: Container(
-                              decoration: const BoxDecoration(
-                                  color: AppColor.blue,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(10))),
-                              child: const Padding(
-                                  padding: EdgeInsets.all(15),
-                                  child: TextWidget(
-                                    text: "Get papers",
-                                    color: Colors.white,
-                                  )),
-                            ),
-                          ),
+                        GetButton(
+                          get: "Papers",
+                          onTap: () async => await viewModel.getPapers(context),
                         ),
+                        // Align(
+                        //   alignment: Alignment.centerRight,
+                        //   child: GestureDetector(
+                        //     onTap: () async =>
+                        //         await viewModel.getPapers(context),
+                        //     child: Container(
+                        //       decoration: const BoxDecoration(
+                        //           color: AppColor.blue,
+                        //           borderRadius:
+                        //               BorderRadius.all(Radius.circular(10))),
+                        //       child: const Padding(
+                        //           padding: EdgeInsets.all(15),
+                        //           child: TextWidget(
+                        //             text: "Get papers",
+                        //             color: Colors.white,
+                        //           )),
+                        //     ),
+                        //   ),
+                        // ),
                         if (viewModel.isBusy)
                           Center(
                             child: Lottie.asset(

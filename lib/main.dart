@@ -16,6 +16,7 @@ import 'app/app_setup.locator.dart';
 import 'app/app_setup.router.dart';
 import 'firebase_options.dart';
 import 'ui/views/pq_upload/pq_upload_screen.dart';
+import 'ui/views/time_table/time_table_view.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -52,13 +53,15 @@ class MainApp extends StatelessWidget {
         minTextAdapt: true,
         designSize: const Size(412, 890),
         builder: (context, child) => MaterialApp(
-            // useInheritedMediaQuery: true,
-            // locale: DevicePreview.locale(context),
-            // builder: DevicePreview.appBuilder,
-            theme: AppTheme.lightTheme,
-            navigatorKey: StackedService.navigatorKey,
-            onGenerateRoute: StackedRouter().onGenerateRoute,
-            home: const SplashScreenView()),
+          // useInheritedMediaQuery: true,
+          // locale: DevicePreview.locale(context),
+          // builder: DevicePreview.appBuilder,
+          theme: AppTheme.lightTheme,
+          // navigatorKey: StackedService.navigatorKey,
+          // onGenerateRoute: StackedRouter().onGenerateRoute,
+          // home: const SplashScreenView()
+          home: TimeTableView(),
+        ),
       ),
     );
   }

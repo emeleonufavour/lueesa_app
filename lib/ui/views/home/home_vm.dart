@@ -21,4 +21,6 @@ class HomeViewModel extends BaseViewModel {
   goToPastQuestionsView() {
     _navService.navigateToPQViewScreen();
   }
+
+  goToTimeTable() => _navService.navigateToTimeTableView();
 }

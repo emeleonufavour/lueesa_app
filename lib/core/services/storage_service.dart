@@ -1,10 +1,12 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 class StorageService {
   final FirebaseStorage _storage = FirebaseStorage.instance;
+  final FirebaseFirestore firestore = FirebaseFirestore.instance;
   Future<String?> uploadImage(
       {required File imgFile,
       required String imgName,
@@ -49,6 +51,24 @@ class StorageService {
       return contents;
     } catch (e) {
       log('Error fetching images: $e');
+      return [];
+    }
+  }
+
+  getTimetable(String level) async {
+    try {
+      DocumentSnapshot snapshot =
+          await firestore.collection('timetables').doc(level).get();
+
+      if (snapshot.exists) {
+        List<Map<String, dynamic>> timetables = List<Map<String, dynamic>>.from(
+            (snapshot.data() as Map<String, dynamic>)['days']);
+        return timetables;
+      } else {
+        return [];
+      }
+    } catch (e) {
+      log("Error getting timetable data: $e");
       return [];
     }
   }
