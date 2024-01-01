@@ -24,6 +24,7 @@ class TimeTableView extends StatelessWidget {
         viewModelBuilder: () => TimeTableViewModel(),
         builder: (context, model, _) {
           return Scaffold(
+              floatingActionButton: FloatingActionButton(onPressed: () {}),
               body: SafeArea(
                   child: Padding(
                       padding: const EdgeInsets.symmetric(

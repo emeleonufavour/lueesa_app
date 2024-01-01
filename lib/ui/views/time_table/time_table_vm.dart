@@ -30,6 +30,7 @@ class TimeTableViewModel extends BaseViewModel {
     if (_level != null) {
       setBusy(true);
       try {
+        timeTable = [];
         timeTable = await _storageService.getTimetable(_level!)
             as List<Map<String, dynamic>>;
         notifyListeners();
