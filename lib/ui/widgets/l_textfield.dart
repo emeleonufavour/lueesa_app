@@ -16,6 +16,7 @@ class LTextField extends StatelessWidget {
   final Color? fillColor;
   final EdgeInsetsGeometry? textFieldPadding;
   final void Function(String)? onFieldSubmitted;
+  final void Function()? onTap;
   final Widget? prefixIcon;
   final Widget? suffixIcon;
   final bool obscureText;
@@ -28,6 +29,7 @@ class LTextField extends StatelessWidget {
       this.textFieldPadding,
       this.onFieldSubmitted,
       this.onEditingComplete,
+      this.onTap,
       this.fillColor,
       this.validate,
       this.onChanged,
@@ -61,6 +63,7 @@ class LTextField extends StatelessWidget {
                 // color:,
                 ),
             child: TextFormField(
+              onTap: onTap,
               obscureText: obscureText,
               keyboardType: keyboardType,
               controller: textCtr,

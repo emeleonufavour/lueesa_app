@@ -72,4 +72,8 @@ class StorageService {
       return [];
     }
   }
+
+  postTimetable(
+    String level,
+  ) {}
 }

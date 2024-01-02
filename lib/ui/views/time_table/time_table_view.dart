@@ -7,6 +7,7 @@ import 'package:gap/gap.dart';
 import 'package:lottie/lottie.dart';
 import 'package:lueesa_app/ui/style/app_dimensions.dart';
 import 'package:lueesa_app/ui/utilities/l_text.dart';
+import 'package:lueesa_app/ui/views/time_table/bottom_sheet/add_course_bm.dart';
 import 'package:lueesa_app/ui/widgets/l_course_box.dart';
 import 'package:lueesa_app/ui/widgets/l_dropdown.dart';
 import 'package:lueesa_app/ui/widgets/l_get_button.dart';
@@ -24,7 +25,20 @@ class TimeTableView extends StatelessWidget {
         viewModelBuilder: () => TimeTableViewModel(),
         builder: (context, model, _) {
           return Scaffold(
-              floatingActionButton: FloatingActionButton(onPressed: () {}),
+              floatingActionButton: FloatingActionButton(onPressed: () {
+                showModalBottomSheet(
+                    isScrollControlled: true,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(35),
+                        topRight: Radius.circular(35),
+                      ),
+                    ),
+                    context: context,
+                    builder: (context) {
+                      return const AddCourseBottomSheet();
+                    });
+              }),
               body: SafeArea(
                   child: Padding(
                       padding: const EdgeInsets.symmetric(
