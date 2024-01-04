@@ -28,9 +28,9 @@ class LoginView extends StatelessWidget {
           Future.delayed(const Duration(seconds: 1), () {
             viewModel.open = true;
           });
-          viewModel.passController.addListener(() {
-            viewModel.onTextChanged();
-          });
+          // viewModel.passController.addListener(() {
+          //   viewModel.onTextChanged();
+          // });
         },
         onDispose: (viewModel) {
           viewModel.passController.dispose();
@@ -125,6 +125,10 @@ class LoginView extends StatelessWidget {
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 16),
                                       child: LAuthTextField(
+                                        onTap: () {
+                                          model.resize = true;
+                                          model.typingTime?.cancel();
+                                        },
                                         incorrectInput: model.incorrectPassword,
                                         hintText: "Enter your password",
                                         keyboardType:
@@ -134,10 +138,15 @@ class LoginView extends StatelessWidget {
                                               value!);
                                         },
                                         textCtr: model.passController,
+                                        focusNode: model.passwordFocusNode,
                                         obscureText: true,
+                                        onEditingComplete: () {
+                                          model.passwordFocusNode.unfocus();
+                                          model.onTextChanged();
+                                        },
                                         onChanged: (value) {
-                                          model.resize = true;
-                                          log("Resize => ${model.resize}");
+                                          // model.resize = true;
+                                          // log("Resize => ${model.resize}");
                                           final error =
                                               LValidator.validatePassword(
                                                   value);
@@ -151,40 +160,40 @@ class LoginView extends StatelessWidget {
                                     ),
 
                                     //remember & forget text
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 20.0),
-                                      child: Row(
-                                        children: [
-                                          Container(
-                                            alignment: Alignment.center,
-                                            width: 20.0,
-                                            height: 20.0,
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(5.0),
-                                              color: const Color(0xFF21899C),
-                                            ),
-                                            child: const Icon(
-                                              Icons.check,
-                                              size: 13,
-                                              color: Colors.white,
-                                            ),
-                                          ),
-                                          const SizedBox(
-                                            width: 8,
-                                          ),
-                                          const Text(
-                                            'Remember me',
-                                          ),
-                                          const Spacer(),
-                                          const Text(
-                                            'Forgot password',
-                                            textAlign: TextAlign.right,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
+                                    // Padding(
+                                    //   padding: const EdgeInsets.symmetric(
+                                    //       horizontal: 20.0),
+                                    //   child: Row(
+                                    //     children: [
+                                    //       Container(
+                                    //         alignment: Alignment.center,
+                                    //         width: 20.0,
+                                    //         height: 20.0,
+                                    //         decoration: BoxDecoration(
+                                    //           borderRadius:
+                                    //               BorderRadius.circular(5.0),
+                                    //           color: const Color(0xFF21899C),
+                                    //         ),
+                                    //         child: const Icon(
+                                    //           Icons.check,
+                                    //           size: 13,
+                                    //           color: Colors.white,
+                                    //         ),
+                                    //       ),
+                                    //       const SizedBox(
+                                    //         width: 8,
+                                    //       ),
+                                    //       const Text(
+                                    //         'Remember me',
+                                    //       ),
+                                    //       const Spacer(),
+                                    //       const Text(
+                                    //         'Forgot password',
+                                    //         textAlign: TextAlign.right,
+                                    //       ),
+                                    //     ],
+                                    //   ),
+                                    // ),
                                     SizedBox(
                                       height: size.height * 0.04,
                                     ),

@@ -17,6 +17,7 @@ dependencies:
     sdk: flutter
   flutter_animate: ^4.3.0
   flutter_icon_snackbar: ^1.1.4
+  flutter_launcher_icons: ^0.13.1
   flutter_screenutil: ^5.9.0
   flutter_svg: ^2.0.9
   gap: ^3.0.1
@@ -47,3 +48,10 @@ flutter:
     - family: EuclidCircularA
       fonts:
         - asset: assets/fonts/Euclid Circular A Regular.ttf
+
+flutter_launcher_icons:
+  android: "LUEESA"
+  image_path: "assets/icon.png"
+  # android: true
+  ios: true
+  remove_alpha_ios: true

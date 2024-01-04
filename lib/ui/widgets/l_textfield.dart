@@ -21,6 +21,7 @@ class LTextField extends StatelessWidget {
   final Widget? suffixIcon;
   final bool obscureText;
   final String? prefixText;
+  final FocusNode? focusNode;
   const LTextField(
       {this.label,
       required this.hintText,
@@ -37,6 +38,7 @@ class LTextField extends StatelessWidget {
       this.labelColor,
       this.suffixIcon,
       this.prefixText,
+      this.focusNode,
       this.obscureText = false,
       super.key});
 
@@ -63,6 +65,7 @@ class LTextField extends StatelessWidget {
                 // color:,
                 ),
             child: TextFormField(
+              focusNode: focusNode,
               onTap: onTap,
               obscureText: obscureText,
               keyboardType: keyboardType,

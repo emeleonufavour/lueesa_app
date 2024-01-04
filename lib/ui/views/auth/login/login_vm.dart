@@ -18,6 +18,7 @@ class LoginViewModel extends BaseViewModel {
   TextEditingController emailController = TextEditingController();
   TextEditingController passController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final FocusNode passwordFocusNode = FocusNode();
   Timer? _typingTimer;
   bool _isOpen = false;
   bool _incorrectEmail = true;

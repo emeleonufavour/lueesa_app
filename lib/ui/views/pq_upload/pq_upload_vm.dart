@@ -13,6 +13,7 @@ import '../../../app/app_setup.locator.dart';
 class PQViewModel extends BaseViewModel {
   final StorageService _storageService = locator<StorageService>();
   TextEditingController imgNameCtr = TextEditingController();
+  final FocusNode sessionFocusNode = FocusNode();
   File? imgFile;
   String? _level;
   TextEditingController courseCodeCtr = TextEditingController();

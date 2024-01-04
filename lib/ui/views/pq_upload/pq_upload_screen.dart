@@ -22,9 +22,9 @@ class PastQuestionUploadScreen extends StatelessWidget {
     return ViewModelBuilder.reactive(
         viewModelBuilder: () => PQViewModel(),
         onViewModelReady: (viewModel) {
-          viewModel.sessionCtr.addListener(() {
-            viewModel.onTextChanged();
-          });
+          // viewModel.sessionCtr.addListener(() {
+          //   viewModel.onTextChanged();
+          // });
         },
         onDispose: (viewModel) {
           viewModel.courseCodeCtr.dispose();
@@ -226,10 +226,19 @@ class PastQuestionUploadScreen extends StatelessWidget {
                                     LTextField(
                                         label: "Session",
                                         hintText: "Enter session eg. 2023_24",
-                                        onChanged: (p0) {
+                                        focusNode: model.sessionFocusNode,
+                                        onTap: () {
                                           model.resize = true;
-                                          log("Resize => ${model.resize}");
+                                          model.typingTime?.cancel();
                                         },
+                                        onEditingComplete: () {
+                                          model.sessionFocusNode.unfocus();
+                                          model.onTextChanged();
+                                        },
+                                        // onChanged: (p0) {
+                                        //   model.resize = true;
+                                        //   log("Resize => ${model.resize}");
+                                        // },
                                         textCtr: model.sessionCtr),
                                     LButton(
                                       label: model.imgFile == null

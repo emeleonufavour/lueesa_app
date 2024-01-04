@@ -22,6 +22,8 @@ class LAuthTextField extends StatelessWidget {
   final bool obscureText;
   final String? prefixText;
   final bool incorrectInput;
+  final void Function()? onTap;
+  final FocusNode? focusNode;
   const LAuthTextField(
       {this.label,
       required this.hintText,
@@ -37,6 +39,8 @@ class LAuthTextField extends StatelessWidget {
       this.labelColor,
       this.suffixIcon,
       this.prefixText,
+      this.onTap,
+      this.focusNode,
       this.incorrectInput = true,
       this.obscureText = false,
       super.key});
@@ -60,6 +64,8 @@ class LAuthTextField extends StatelessWidget {
           SizedBox(
             height: size.height / 12,
             child: TextFormField(
+              focusNode: focusNode,
+              onTap: onTap,
               controller: textCtr,
               cursorColor: const Color(0xFF151624),
               obscureText: obscureText,

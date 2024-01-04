@@ -25,18 +25,18 @@ class AddCourseBottomSheet extends StatelessWidget {
     return ViewModelBuilder.reactive(
         viewModelBuilder: () => AddCourseViewModel(),
         onViewModelReady: (viewModel) {
-          viewModel.codeCtr.addListener(() {
-            viewModel.onTextChanged();
-          });
-          viewModel.lectCtr.addListener(() {
-            viewModel.onTextChanged();
-          });
-          viewModel.timeCtr.addListener(() {
-            viewModel.onTextChanged();
-          });
-          viewModel.titleCtr.addListener(() {
-            viewModel.onTextChanged();
-          });
+          // viewModel.codeCtr.addListener(() {
+          //   viewModel.onTextChanged();
+          // });
+          // viewModel.lectCtr.addListener(() {
+          //   viewModel.onTextChanged();
+          // });
+          // viewModel.timeCtr.addListener(() {
+          //   viewModel.onTextChanged();
+          // });
+          // viewModel.titleCtr.addListener(() {
+          //   viewModel.onTextChanged();
+          // });
         },
         onDispose: (viewModel) {
           viewModel.codeCtr.dispose();
@@ -46,119 +46,150 @@ class AddCourseBottomSheet extends StatelessWidget {
           viewModel.typingTime?.cancel();
         },
         builder: (context, model, _) {
-          return Padding(
-            padding: EdgeInsets.only(
-                bottom: MediaQuery.of(context).viewInsets.bottom),
-            child: Container(
-              height: LDimensions.height(0.9, context),
-              decoration: const BoxDecoration(
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(35),
-                    topRight: Radius.circular(35)),
-                color: Color(0xffF9FAFB),
-              ),
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 27.0, horizontal: 16),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    //Input details
-                    Column(
-                      children: [
-                        LDropDown(
-                            label: "Course of study",
-                            dropDownList: const [
-                              "100",
-                              "200",
-                              "300",
-                              "400",
-                              "500"
-                            ],
-                            hintText: "Enter your course",
-                            dropDownHeight: LDimensions.height(0.2, context),
-                            text: model.level,
-                            tapped: model.tapped,
-                            onChanged: (val) {
-                              model.level = val;
-                            },
-                            onTapped: (val) {
-                              model.tapped = val!;
-                            }),
-                        LDropDown(
-                            label: "Choose the day",
-                            dropDownList: const [
-                              "Monday",
-                              "Tuesday",
-                              "Wednesday",
-                              "Thursday",
-                              "Friday"
-                            ],
-                            hintText: "Choose day",
-                            dropDownHeight: LDimensions.height(0.2, context),
-                            text: model.day,
-                            tapped: model.tapped,
-                            onChanged: (val) {
-                              model.day = val;
-                            },
-                            onTapped: (val) {
-                              model.tapped = val!;
-                            }),
-                        LTextField(
+          return SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).viewInsets.bottom),
+              child: Container(
+                height: LDimensions.height(0.98, context),
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(35),
+                      topRight: Radius.circular(35)),
+                  color: Color(0xffF9FAFB),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 27.0, horizontal: 16),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      //Input details
+                      Column(
+                        children: [
+                          // LDropDown(
+                          //     label: "Course of study",
+                          //     dropDownList: const [
+                          //       "100",
+                          //       "200",
+                          //       "300",
+                          //       "400",
+                          //       "500"
+                          //     ],
+                          //     hintText: "Enter your course",
+                          //     dropDownHeight: LDimensions.height(0.2, context),
+                          //     text: model.level,
+                          //     tapped: model.tapped,
+                          //     onChanged: (val) {
+                          //       model.level = val;
+                          //     },
+                          //     onTapped: (val) {
+                          //       model.tapped = val!;
+                          //     }),
+                          LDropDown(
+                              label: "Choose the day",
+                              dropDownList: const [
+                                "Monday",
+                                "Tuesday",
+                                "Wednesday",
+                                "Thursday",
+                                "Friday"
+                              ],
+                              hintText: "Choose day",
+                              dropDownHeight: LDimensions.height(0.2, context),
+                              text: model.day,
+                              tapped: model.tapped,
+                              onChanged: (val) {
+                                model.day = val;
+                              },
+                              onTapped: (val) {
+                                model.tapped = val!;
+                              }),
+                          LTextField(
+                              focusNode: model.codeFocusNode,
+                              onTap: () {
+                                model.isTyping = true;
+                                model.typingTime?.cancel();
+                              },
+                              hintText: "Enter course code",
+                              label: "Course code",
+                              // onChanged: (p0) {
+                              //   model.isTyping = true;
+                              //   log("Typing=> ${model.isTyping}");
+                              // },
+                              onEditingComplete: () {
+                                model.codeFocusNode.unfocus();
+                                model.onTextChanged();
+                              },
+                              textCtr: model.codeCtr),
+                          LTextField(
+                            hintText: "Enter course title",
+                            label: "Course title",
+                            focusNode: model.titleFocusNode,
+                            textCtr: model.titleCtr,
                             onTap: () {
                               model.isTyping = true;
+                              model.typingTime?.cancel();
                             },
-                            hintText: "Enter course code",
-                            onChanged: (p0) {
+                            onEditingComplete: () {
+                              model.titleFocusNode.unfocus();
+                              model.onTextChanged();
+                            },
+                            // onChanged: (p0) {
+                            //   model.isTyping = true;
+                            //   log("Typing=> ${model.isTyping}");
+                            // },
+                          ),
+                          LTextField(
+                            label: "Course duration",
+                            hintText: "Enter duration of the course",
+                            textCtr: model.timeCtr,
+                            // onChanged: (p0) {
+                            //   model.isTyping = true;
+                            //   log("Typing=> ${model.isTyping}");
+                            // },
+                            focusNode: model.timeFocusNode,
+
+                            onTap: () {
                               model.isTyping = true;
-                              log("Typing=> ${model.isTyping}");
+                              model.typingTime?.cancel();
                             },
-                            textCtr: model.codeCtr),
-                        LTextField(
-                          hintText: "Enter course title",
-                          textCtr: model.titleCtr,
-                          onChanged: (p0) {
-                            model.isTyping = true;
-                            log("Typing=> ${model.isTyping}");
-                          },
-                          onTap: () {
-                            model.isTyping = true;
-                            model.typingTime?.cancel();
-                          },
-                        ),
-                        LTextField(
-                          hintText: "Enter duration of the course",
-                          textCtr: model.timeCtr,
-                          onChanged: (p0) {
-                            model.isTyping = true;
-                            log("Typing=> ${model.isTyping}");
-                          },
-                          onTap: () {
-                            model.isTyping = true;
-                          },
-                        ),
-                        LTextField(
-                          hintText: "Enter lecturer name",
-                          textCtr: model.lectCtr,
-                          onChanged: (p0) {
-                            model.isTyping = true;
-                            log("Typing=> ${model.isTyping}");
-                          },
-                          onTap: () {
-                            model.isTyping = true;
-                          },
-                        ),
-                      ],
-                    ),
-                    if (!model.isTyping)
-                      LButton(
-                        label: "Enter course information",
-                        color: AppColor.blue,
-                        fct: () {},
-                      )
-                          .animate()
-                          .fadeIn(duration: const Duration(milliseconds: 300))
-                  ],
+                            onEditingComplete: () {
+                              model.timeFocusNode.unfocus();
+                              model.onTextChanged();
+                            },
+                          ),
+                          LTextField(
+                            label: "Lecturer name",
+                            hintText: "Enter lecturer name",
+                            textCtr: model.lectCtr,
+                            // onChanged: (p0) {
+                            //   model.isTyping = true;
+                            //   log("Typing=> ${model.isTyping}");
+                            // },
+                            focusNode: model.lectFocusNode,
+
+                            onTap: () {
+                              model.isTyping = true;
+                              model.typingTime?.cancel();
+                            },
+                            onEditingComplete: () {
+                              model.lectFocusNode.unfocus();
+                              model.onTextChanged();
+                            },
+                          ),
+                        ],
+                      ),
+                      if (!model.isTyping)
+                        LButton(
+                          label: "Enter course information",
+                          color: AppColor.blue,
+                          // fct: () => model.addCourseToDay(),
+                        )
+                            .animate()
+                            .fadeIn(duration: const Duration(milliseconds: 300))
+                    ],
+                  ),
                 ),
               ),
             ),
