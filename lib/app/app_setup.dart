@@ -9,6 +9,7 @@ import '../ui/views/home/home.dart';
 import '../ui/views/pq_upload/pq_upload_screen.dart';
 import '../ui/views/pq_view/pq_view_screen.dart';
 import '../ui/views/splash_screen/splash_view.dart';
+import '../ui/views/time_table/bottom_sheet/add_course_bm.dart';
 import '../ui/views/time_table/time_table_view.dart';
 
 @StackedApp(routes: [
@@ -18,6 +19,7 @@ import '../ui/views/time_table/time_table_view.dart';
   AdaptiveRoute(page: PastQuestionUploadScreen),
   AdaptiveRoute(page: PQViewScreen),
   AdaptiveRoute(page: TimeTableView),
+  AdaptiveRoute(page: AddCourseView),
 ], dependencies: [
   LazySingleton(classType: NavigationService),
   LazySingleton(classType: AuthService),

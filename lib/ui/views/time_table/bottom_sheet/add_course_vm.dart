@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_icon_snackbar/flutter_icon_snackbar.dart';
 import 'package:lueesa_app/core/services/storage_service.dart';
 import 'package:stacked/stacked.dart';
 
@@ -64,5 +65,28 @@ class AddCourseViewModel extends BaseViewModel {
     });
   }
 
-  // addCourseToDay() async => await _storageService.addCourseToDay("");
+  addCourseToDay(BuildContext context) async {
+    setBusy(true);
+    if (level != null &&
+        day != null &&
+        codeCtr.text.isNotEmpty &&
+        titleCtr.text.isNotEmpty &&
+        lectCtr.text.isNotEmpty &&
+        timeCtr.text.isNotEmpty) {
+      await _storageService.addCourseToDay(
+          level: level!,
+          day: day!,
+          code: codeCtr.text,
+          title: titleCtr.text,
+          lect: lectCtr.text,
+          time: timeCtr.text);
+    } else {
+      IconSnackBar.show(
+          context: context,
+          label: "No field must be empty",
+          snackBarType: SnackBarType.fail);
+      throw Exception("No field must be empty");
+    }
+    setBusy(false);
+  }
 }

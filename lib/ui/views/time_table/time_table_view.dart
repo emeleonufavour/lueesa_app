@@ -5,6 +5,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:lottie/lottie.dart';
+import 'package:lueesa_app/ui/style/app_assets.dart';
 import 'package:lueesa_app/ui/style/app_dimensions.dart';
 import 'package:lueesa_app/ui/utilities/l_text.dart';
 import 'package:lueesa_app/ui/views/time_table/bottom_sheet/add_course_bm.dart';
@@ -25,20 +26,8 @@ class TimeTableView extends StatelessWidget {
         viewModelBuilder: () => TimeTableViewModel(),
         builder: (context, model, _) {
           return Scaffold(
-              floatingActionButton: FloatingActionButton(onPressed: () {
-                showModalBottomSheet(
-                    isScrollControlled: true,
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(35),
-                        topRight: Radius.circular(35),
-                      ),
-                    ),
-                    context: context,
-                    builder: (context) {
-                      return const AddCourseBottomSheet();
-                    });
-              }),
+              floatingActionButton: FloatingActionButton(
+                  onPressed: () => model.goToAddTimeTableScreen()),
               body: SafeArea(
                   child: Padding(
                       padding: const EdgeInsets.symmetric(
@@ -75,12 +64,25 @@ class TimeTableView extends StatelessWidget {
                                   animate: true,
                                   repeat: true),
                             ),
-                          if (model.timeTable.isNotEmpty)
+                          if ((model.timeTable.isEmpty && !model.isBusy) ||
+                              (model.timeTable.isNotEmpty && (model.allEmpty)))
+                            Expanded(
+                                child: Center(
+                              child: Column(
+                                children: [
+                                  AppAssets.emptyBox(),
+                                  Gap(25.h),
+                                  const TextWidget(
+                                      text: "Nothing to see here currently")
+                                ],
+                              ),
+                            )),
+                          if (model.timeTable.isNotEmpty && !(model.allEmpty))
                             Expanded(
                               child: ListView.builder(
-                                  itemCount: model.timeTable.length,
+                                  itemCount: model.filteredTimeTable().length,
                                   itemBuilder: (context, index) {
-                                    final timetable = model.timeTable;
+                                    final timetable = model.filteredTimeTable();
                                     return DayContent(
                                         day: timetable[index]["day"],
                                         courses: timetable[index]["courses"]);

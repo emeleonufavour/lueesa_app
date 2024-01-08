@@ -8,15 +8,11 @@ import 'package:lueesa_app/app/routing/app_route.dart';
 import 'package:lueesa_app/core/services/user_service.dart';
 import 'package:lueesa_app/ui/style/app_theme.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:lueesa_app/ui/views/home/home.dart';
 import 'package:lueesa_app/ui/views/splash_screen/splash_view.dart';
-import 'package:lueesa_app/ui/views/test.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'app/app_setup.locator.dart';
 import 'app/app_setup.router.dart';
 import 'firebase_options.dart';
-import 'ui/views/pq_upload/pq_upload_screen.dart';
-import 'ui/views/time_table/time_table_view.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,9 +20,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  Size screenSize = WidgetsBinding.instance.window.physicalSize;
-  double width = screenSize.width;
-  double height = screenSize.height;
+
   //log("Height => $height and Width => $width");
   runApp(const MainApp());
   // runApp(DevicePreview(

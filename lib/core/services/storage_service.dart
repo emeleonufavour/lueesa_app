@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:lueesa_app/core/models/time_table.dart';
 
 class StorageService {
   final FirebaseStorage _storage = FirebaseStorage.instance;
@@ -63,6 +64,8 @@ class StorageService {
       if (snapshot.exists) {
         List<Map<String, dynamic>> timetables = List<Map<String, dynamic>>.from(
             (snapshot.data() as Map<String, dynamic>)['days']);
+
+        log("Timetable ==> $timetables");
         return timetables;
       } else {
         return [];
@@ -74,28 +77,74 @@ class StorageService {
   }
 
   addCourseToDay(
-    String level,
-  ) async {
+      {required String level,
+      required String day,
+      required String code,
+      required String title,
+      required String lect,
+      required String time}) async {
     CollectionReference collection = _firestore.collection('timetables');
-    DocumentReference documentReference = collection.doc("100");
+    DocumentReference documentReference = collection.doc(level);
+    String fieldToUpdate = 'days';
 
     try {
-      // Update the document by adding a new course to the "courses" array
-      await documentReference.update({
-        "days": FieldValue.arrayUnion([
-          {
-            "courses": [
-              {
-                "code": "EIE 311",
-                "lect": "Engr. Dickson",
-                "time": "8:00-10:00am",
-                "title": "Electronics"
-              }
-            ],
-            "day": "Tuesday",
-          }
-        ]),
-      });
+      // Get the timetable for particular level from firestore
+      DocumentSnapshot docSnapshot = await documentReference.get();
+
+      if (docSnapshot.exists) {
+        // Store the timetable in a new variable
+        List<Map<String, dynamic>> timetables = List<Map<String, dynamic>>.from(
+            (docSnapshot.data() as Map<String, dynamic>)[fieldToUpdate]);
+
+        log("Old timetable ==> $timetables");
+
+        // update the properties of the local variable
+        Course course =
+            Course(code: code, title: title, time: time, lect: lect);
+        switch (day.toLowerCase()) {
+          case "monday":
+            List courses = timetables[0]['courses'];
+            if (!courses.contains(course.toJson())) {
+              courses.add(course.toJson());
+            }
+
+            break;
+          case "tuesday":
+            List courses = timetables[1]['courses'];
+            if (!courses.contains(course.toJson())) {
+              courses.add(course.toJson());
+            }
+            break;
+          case "wednesday":
+            List courses = timetables[2]['courses'];
+            if (!courses.contains(course.toJson())) {
+              courses.add(course.toJson());
+            }
+            break;
+          case "thursday":
+            List courses = timetables[3]['courses'];
+            if (!courses.contains(course.toJson())) {
+              courses.add(course.toJson());
+            }
+            break;
+          case "friday":
+            List courses = timetables[4]['courses'];
+            if (!courses.contains(course.toJson())) {
+              courses.add(course.toJson());
+            }
+            break;
+          default:
+            log("Day isn't well formatted");
+
+          // upload the local variable as a new field
+        }
+        log("Updating timetable");
+        await documentReference.update({
+          fieldToUpdate: timetables,
+        });
+        log("New Timetable ==> $timetables");
+      }
+
       log('Course added to the "courses" array successfully!');
     } catch (e) {
       log('Error adding course to the "courses" array: $e');

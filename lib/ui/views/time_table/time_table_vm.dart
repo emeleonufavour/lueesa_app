@@ -4,10 +4,12 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_icon_snackbar/flutter_icon_snackbar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lueesa_app/app/app_setup.router.dart';
 import 'package:lueesa_app/core/services/storage_service.dart';
 import 'package:lueesa_app/ui/style/app_colors.dart';
 import 'package:lueesa_app/ui/utilities/l_text.dart';
 import 'package:stacked/stacked.dart';
+import 'package:stacked_services/stacked_services.dart';
 
 import '../../../app/app_setup.locator.dart';
 
@@ -16,8 +18,13 @@ math.Random random = math.Random();
 
 class TimeTableViewModel extends BaseViewModel {
   final _storageService = locator<StorageService>();
+  final _navService = locator<NavigationService>();
+
   String? _level;
   List<Map<String, dynamic>> timeTable = [];
+
+  bool get allEmpty =>
+      timeTable.every((element) => (element["courses"] as List).isEmpty);
 
   String? get getLevel => _level;
 
@@ -25,6 +32,15 @@ class TimeTableViewModel extends BaseViewModel {
     _level = value;
     notifyListeners();
   }
+
+  List<Map<String, dynamic>> filteredTimeTable() {
+    List<Map<String, dynamic>> result = timeTable
+        .where((element) => (element["courses"] as List).isNotEmpty)
+        .toList();
+    return result;
+  }
+
+  goToAddTimeTableScreen() => _navService.navigateToAddCourseView();
 
   getTimetable(BuildContext context) async {
     if (_level != null) {
@@ -56,14 +72,6 @@ class TimeTableViewModel extends BaseViewModel {
           snackBarType: SnackBarType.fail);
     }
     setBusy(false);
-    // log("Timetable response from Firebase ==> $timeTable");
-    // log("Day ==> ${timeTable[0]["day"]}");
-    // log("Courses ==> ${timeTable[0]["courses"]}, ");
-    // log("Course ==> ${timeTable[0]["courses"][0]}");
-    // log("Course code ==> ${timeTable[0]["courses"][0]["code"]}");
-    // log("Course lecturer ==> ${timeTable[0]["courses"][0]["lect"]}");
-    // log("Course title ==> ${timeTable[0]["courses"][0]["title"]}");
-    // log("Course time ==> ${timeTable[0]["courses"][0]["time"]}");
   }
 
   // List<Map<String, dynamic>> timeTable = [

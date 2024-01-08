@@ -17,27 +17,14 @@ import 'package:stacked_services/stacked_services.dart';
 import '../../../utilities/l_text.dart';
 import 'add_course_vm.dart';
 
-class AddCourseBottomSheet extends StatelessWidget {
-  const AddCourseBottomSheet({super.key});
+class AddCourseView extends StatelessWidget {
+  const AddCourseView({super.key});
 
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder.reactive(
         viewModelBuilder: () => AddCourseViewModel(),
-        onViewModelReady: (viewModel) {
-          // viewModel.codeCtr.addListener(() {
-          //   viewModel.onTextChanged();
-          // });
-          // viewModel.lectCtr.addListener(() {
-          //   viewModel.onTextChanged();
-          // });
-          // viewModel.timeCtr.addListener(() {
-          //   viewModel.onTextChanged();
-          // });
-          // viewModel.titleCtr.addListener(() {
-          //   viewModel.onTextChanged();
-          // });
-        },
+        onViewModelReady: (viewModel) {},
         onDispose: (viewModel) {
           viewModel.codeCtr.dispose();
           viewModel.lectCtr.dispose();
@@ -46,18 +33,9 @@ class AddCourseBottomSheet extends StatelessWidget {
           viewModel.typingTime?.cancel();
         },
         builder: (context, model, _) {
-          return SingleChildScrollView(
-            child: Padding(
-              padding: EdgeInsets.only(
-                  bottom: MediaQuery.of(context).viewInsets.bottom),
-              child: Container(
-                height: LDimensions.height(0.98, context),
-                decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(35),
-                      topRight: Radius.circular(35)),
-                  color: Color(0xffF9FAFB),
-                ),
+          return Scaffold(
+            body: SafeArea(
+              child: SingleChildScrollView(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
                       vertical: 27.0, horizontal: 16),
@@ -67,25 +45,25 @@ class AddCourseBottomSheet extends StatelessWidget {
                       //Input details
                       Column(
                         children: [
-                          // LDropDown(
-                          //     label: "Course of study",
-                          //     dropDownList: const [
-                          //       "100",
-                          //       "200",
-                          //       "300",
-                          //       "400",
-                          //       "500"
-                          //     ],
-                          //     hintText: "Enter your course",
-                          //     dropDownHeight: LDimensions.height(0.2, context),
-                          //     text: model.level,
-                          //     tapped: model.tapped,
-                          //     onChanged: (val) {
-                          //       model.level = val;
-                          //     },
-                          //     onTapped: (val) {
-                          //       model.tapped = val!;
-                          //     }),
+                          LDropDown(
+                              label: "Level of study",
+                              dropDownList: const [
+                                "100",
+                                "200",
+                                "300",
+                                "400",
+                                "500"
+                              ],
+                              hintText: "Enter the level",
+                              dropDownHeight: LDimensions.height(0.2, context),
+                              text: model.level,
+                              tapped: model.tapped,
+                              onChanged: (val) {
+                                model.level = val;
+                              },
+                              onTapped: (val) {
+                                model.tapped = val!;
+                              }),
                           LDropDown(
                               label: "Choose the day",
                               dropDownList: const [
@@ -180,11 +158,15 @@ class AddCourseBottomSheet extends StatelessWidget {
                           ),
                         ],
                       ),
+                      Gap(40.h),
                       if (!model.isTyping)
                         LButton(
+                          buttonWidget: model.isBusy
+                              ? CircularProgressIndicator()
+                              : TextWidget(text: "Enter course information"),
                           label: "Enter course information",
                           color: AppColor.blue,
-                          // fct: () => model.addCourseToDay(),
+                          fct: () => model.addCourseToDay(context),
                         )
                             .animate()
                             .fadeIn(duration: const Duration(milliseconds: 300))
