@@ -3,13 +3,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../utilities/l_text.dart';
 
-class LButton extends StatelessWidget {
+class LButton extends StatefulWidget {
   const LButton(
       {super.key,
       required this.label,
       this.fct,
       required this.color,
       this.withWidth,
+      this.width,
       this.borderColor,
       this.textColor,
       this.horizontalPadding,
@@ -23,6 +24,7 @@ class LButton extends StatelessWidget {
   final VoidCallback? fct;
   final Color color;
   final bool? withWidth;
+  final double? width;
   final Color? borderColor;
   final Color? textColor;
   final double? horizontalPadding;
@@ -32,34 +34,71 @@ class LButton extends StatelessWidget {
   final bool isPrefixPresent;
   final Widget? prefixWidget;
   final Widget? buttonWidget;
+
+  @override
+  State<LButton> createState() => _LButtonState();
+}
+
+class _LButtonState extends State<LButton> with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: const Duration(milliseconds: 150),
+      vsync: this,
+    );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     // final theme = Theme.of(context).primaryColor;
     return GestureDetector(
-      onTap: fct,
-      child: Container(
-        alignment: Alignment.center,
-        width: double.maxFinite,
-        padding: EdgeInsets.symmetric(
-          horizontal: horizontalPadding ?? 10.w,
-          vertical: verticalPadding ?? 14.h,
+      // onTap: widget.fct,
+      onTap: () {
+        _controller.forward();
+        Future.delayed(const Duration(milliseconds: 200), () {
+          _controller.reverse();
+          widget.fct!();
+        });
+      },
+      child: ScaleTransition(
+        scale: Tween<double>(
+          begin: 1.0,
+          end: 0.9,
+        ).animate(_controller),
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 200),
+          alignment: Alignment.center,
+          width: widget.width ?? double.maxFinite,
+          padding: EdgeInsets.symmetric(
+            horizontal: widget.horizontalPadding ?? 10.w,
+            vertical: widget.verticalPadding ?? 14.h,
+          ),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(32),
+            color: widget.color,
+            // border: Border.all(
+            //   width: 2,
+            //   //color: borderColor ?? Colors.white,
+            // ),
+          ),
+          child: widget.buttonWidget ??
+              TextWidget(
+                textAlign: TextAlign.center,
+                text: widget.label,
+                fontWeight: FontWeight.w700,
+                fontsize: 15.sp,
+                color: widget.textColor ?? Colors.white,
+              ),
         ),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(32),
-          color: color,
-          // border: Border.all(
-          //   width: 2,
-          //   //color: borderColor ?? Colors.white,
-          // ),
-        ),
-        child: buttonWidget ??
-            TextWidget(
-              textAlign: TextAlign.center,
-              text: label,
-              fontWeight: FontWeight.w700,
-              fontsize: 15.sp,
-              color: textColor ?? Colors.white,
-            ),
       ),
     );
   }

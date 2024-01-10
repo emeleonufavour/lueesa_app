@@ -76,7 +76,7 @@ class StorageService {
     }
   }
 
-  addCourseToDay(
+  Future<bool> addCourseToDay(
       {required String level,
       required String day,
       required String code,
@@ -144,10 +144,11 @@ class StorageService {
         });
         log("New Timetable ==> $timetables");
       }
-
       log('Course added to the "courses" array successfully!');
+      return true;
     } catch (e) {
       log('Error adding course to the "courses" array: $e');
     }
+    return false;
   }
 }

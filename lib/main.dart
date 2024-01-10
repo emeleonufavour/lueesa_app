@@ -13,6 +13,7 @@ import 'package:stacked_services/stacked_services.dart';
 import 'app/app_setup.locator.dart';
 import 'app/app_setup.router.dart';
 import 'firebase_options.dart';
+import 'ui/views/test/test.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -54,7 +55,7 @@ class MainApp extends StatelessWidget {
             navigatorKey: StackedService.navigatorKey,
             onGenerateRoute: StackedRouter().onGenerateRoute,
             home: const SplashScreenView()
-            // home: TimeTableView(),
+            //  home: TestScreen(),
             ),
       ),
     );

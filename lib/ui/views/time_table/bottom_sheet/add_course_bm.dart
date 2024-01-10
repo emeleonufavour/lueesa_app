@@ -162,8 +162,13 @@ class AddCourseView extends StatelessWidget {
                       if (!model.isTyping)
                         LButton(
                           buttonWidget: model.isBusy
-                              ? CircularProgressIndicator()
-                              : TextWidget(text: "Enter course information"),
+                              ? const CircularProgressIndicator(
+                                  color: Colors.white,
+                                )
+                              : const TextWidget(
+                                  text: "Enter course information",
+                                  color: Colors.white,
+                                ),
                           label: "Enter course information",
                           color: AppColor.blue,
                           fct: () => model.addCourseToDay(context),

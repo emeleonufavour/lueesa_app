@@ -16,8 +16,31 @@ import 'package:stacked/stacked.dart';
 import '../../../utilities/l_validator.dart';
 import 'login_vm.dart';
 
-class LoginView extends StatelessWidget {
+class LoginView extends StatefulWidget {
   const LoginView({Key? key}) : super(key: key);
+
+  @override
+  State<LoginView> createState() => _LoginViewState();
+}
+
+class _LoginViewState extends State<LoginView>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: Duration(milliseconds: 150),
+      vsync: this,
+    );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -201,26 +224,37 @@ class LoginView extends StatelessWidget {
                                     //sign in button
                                     GestureDetector(
                                       onTap: () async {
-                                        await model.login(context);
+                                        _controller.forward();
+                                        Future.delayed(
+                                            const Duration(milliseconds: 200),
+                                            () async {
+                                          _controller.reverse();
+                                          await model.login(context);
+                                        });
                                       },
-                                      child: Container(
-                                          alignment: Alignment.center,
-                                          height: size.height / 13,
-                                          width: size.width * 0.7,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(50.0),
-                                            color: AppColor.darkBlue,
-                                          ),
-                                          child: model.isBusy
-                                              ? const CircularProgressIndicator(
-                                                  color: Colors.white,
-                                                )
-                                              : const TextWidget(
-                                                  text: "Sign In",
-                                                  textAlign: TextAlign.center,
-                                                  color: Colors.white,
-                                                )),
+                                      child: ScaleTransition(
+                                        scale:
+                                            Tween<double>(begin: 1.0, end: 0.9)
+                                                .animate(_controller),
+                                        child: Container(
+                                            alignment: Alignment.center,
+                                            height: size.height / 13,
+                                            width: size.width * 0.7,
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(50.0),
+                                              color: AppColor.darkBlue,
+                                            ),
+                                            child: model.isBusy
+                                                ? const CircularProgressIndicator(
+                                                    color: Colors.white,
+                                                  )
+                                                : const TextWidget(
+                                                    text: "Sign In",
+                                                    textAlign: TextAlign.center,
+                                                    color: Colors.white,
+                                                  )),
+                                      ),
                                     ),
                                   ],
                                 ),

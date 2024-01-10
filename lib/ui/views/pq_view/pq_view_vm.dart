@@ -19,6 +19,7 @@ class PQViewViewModel extends BaseViewModel with ListenableServiceMixin {
   TextEditingController sessionCtr = TextEditingController();
   final status = Permission.manageExternalStorage.status;
   List<Map<String, String>> contents = [];
+
   String? _level;
   bool _isDownloading = false;
   //String _progress = "0";

@@ -13,9 +13,16 @@ import 'package:stacked/stacked.dart';
 import '../../style/app_colors.dart';
 import '../../widgets/l_textfield.dart';
 
-class PastQuestionUploadScreen extends StatelessWidget {
+class PastQuestionUploadScreen extends StatefulWidget {
   const PastQuestionUploadScreen({super.key});
 
+  @override
+  State<PastQuestionUploadScreen> createState() =>
+      _PastQuestionUploadScreenState();
+}
+
+class _PastQuestionUploadScreenState extends State<PastQuestionUploadScreen>
+    with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.sizeOf(context);
@@ -235,10 +242,6 @@ class PastQuestionUploadScreen extends StatelessWidget {
                                           model.sessionFocusNode.unfocus();
                                           model.onTextChanged();
                                         },
-                                        // onChanged: (p0) {
-                                        //   model.resize = true;
-                                        //   log("Resize => ${model.resize}");
-                                        // },
                                         textCtr: model.sessionCtr),
                                     LButton(
                                       label: model.imgFile == null
@@ -256,6 +259,7 @@ class PastQuestionUploadScreen extends StatelessWidget {
                                         buttonWidget: model.isBusy
                                             ? const CircularProgressIndicator(
                                                 color: Colors.white,
+                                                strokeWidth: 2,
                                               )
                                             : null,
                                         color: Colors.red,

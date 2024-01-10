@@ -66,20 +66,35 @@ class AddCourseViewModel extends BaseViewModel {
   }
 
   addCourseToDay(BuildContext context) async {
-    setBusy(true);
     if (level != null &&
         day != null &&
         codeCtr.text.isNotEmpty &&
         titleCtr.text.isNotEmpty &&
         lectCtr.text.isNotEmpty &&
         timeCtr.text.isNotEmpty) {
-      await _storageService.addCourseToDay(
+      setBusy(true);
+      bool result = await _storageService.addCourseToDay(
           level: level!,
           day: day!,
           code: codeCtr.text,
           title: titleCtr.text,
           lect: lectCtr.text,
           time: timeCtr.text);
+
+      if (context.mounted) {
+        if (result) {
+          IconSnackBar.show(
+              context: context,
+              label: "Course was added successfully",
+              snackBarType: SnackBarType.save);
+          Navigator.of(context).pop();
+        } else {
+          IconSnackBar.show(
+              context: context,
+              label: "There was an error while adding course",
+              snackBarType: SnackBarType.save);
+        }
+      }
     } else {
       IconSnackBar.show(
           context: context,
