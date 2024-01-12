@@ -13,6 +13,7 @@ import 'package:stacked_services/stacked_services.dart';
 import 'app/app_setup.locator.dart';
 import 'app/app_setup.router.dart';
 import 'firebase_options.dart';
+import 'ui/views/home/home.dart';
 import 'ui/views/test/test.dart';
 
 void main() async {
@@ -48,15 +49,15 @@ class MainApp extends StatelessWidget {
         minTextAdapt: true,
         designSize: const Size(412, 890),
         builder: (context, child) => MaterialApp(
-            // useInheritedMediaQuery: true,
-            // locale: DevicePreview.locale(context),
-            // builder: DevicePreview.appBuilder,
-            theme: AppTheme.lightTheme,
-            navigatorKey: StackedService.navigatorKey,
-            onGenerateRoute: StackedRouter().onGenerateRoute,
-            home: const SplashScreenView()
-            //  home: TestScreen(),
-            ),
+          // useInheritedMediaQuery: true,
+          // locale: DevicePreview.locale(context),
+          // builder: DevicePreview.appBuilder,
+          theme: AppTheme.lightTheme,
+          // navigatorKey: StackedService.navigatorKey,
+          // onGenerateRoute: StackedRouter().onGenerateRoute,
+          // home: const SplashScreenView()
+          home: HomeView(),
+        ),
       ),
     );
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -21,30 +22,35 @@ class CourseBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 150,
-      color: color,
-      padding: const EdgeInsets.all(10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          //Course code
-          TextWidget(
-            text: courseCode,
-            fontsize: 20.sp,
-            fontWeight: FontWeight.bold,
-          ),
-          //Course title
-          if (courseTitle != null)
+    return GestureDetector(
+      onTap: () {
+        HapticFeedback.lightImpact();
+      },
+      child: Container(
+        width: 150,
+        color: color,
+        padding: const EdgeInsets.all(10),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            //Course code
             TextWidget(
-              text: courseTitle!,
-              fontsize: 16.sp,
+              text: courseCode,
+              fontsize: 20.sp,
+              fontWeight: FontWeight.bold,
             ),
-          //Time
-          TextWidget(text: time),
-          //Lecturer
-          if (lect != null) TextWidget(text: lect!)
-        ],
+            //Course title
+            if (courseTitle != null)
+              TextWidget(
+                text: courseTitle!,
+                fontsize: 16.sp,
+              ),
+            //Time
+            TextWidget(text: time),
+            //Lecturer
+            if (lect != null) TextWidget(text: lect!)
+          ],
+        ),
       ),
     );
   }
