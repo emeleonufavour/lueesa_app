@@ -49,15 +49,15 @@ class MainApp extends StatelessWidget {
         minTextAdapt: true,
         designSize: const Size(412, 890),
         builder: (context, child) => MaterialApp(
-          // useInheritedMediaQuery: true,
-          // locale: DevicePreview.locale(context),
-          // builder: DevicePreview.appBuilder,
-          theme: AppTheme.lightTheme,
-          // navigatorKey: StackedService.navigatorKey,
-          // onGenerateRoute: StackedRouter().onGenerateRoute,
-          // home: const SplashScreenView()
-          home: HomeView(),
-        ),
+            // useInheritedMediaQuery: true,
+            // locale: DevicePreview.locale(context),
+            // builder: DevicePreview.appBuilder,
+            theme: AppTheme.lightTheme,
+            navigatorKey: StackedService.navigatorKey,
+            onGenerateRoute: StackedRouter().onGenerateRoute,
+            home: const SplashScreenView()
+            //home: HomeView(),
+            ),
       ),
     );
   }

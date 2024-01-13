@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
@@ -75,6 +76,17 @@ class _HomeViewState extends State<HomeView> {
                             fontWeight: FontWeight.bold,
                           ),
                           onTap: () => viewModel.goToPastQuestionsUpload(),
+                        ),
+                        ListTile(
+                          leading: const Icon(
+                            CupertinoIcons.book,
+                            color: Colors.black,
+                          ),
+                          title: const TextWidget(
+                            text: "Upload Note",
+                            fontWeight: FontWeight.bold,
+                          ),
+                          onTap: () => viewModel.goToUploadNotes(),
                         ),
                         ListTile(
                           leading: const Icon(

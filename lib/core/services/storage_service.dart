@@ -191,4 +191,30 @@ class StorageService {
         .doc(noteId)
         .delete();
   }
+
+  //CRUD Operations on PDF Notes
+  Future<void> uploadFileToStorage({
+    required String filePath,
+    required String level,
+    required String courseCode,
+    required String year,
+  }) async {
+    if (filePath.isNotEmpty) {
+      try {
+        String fileName = filePath.split('/').last;
+
+        String storagePath =
+            "notes/$level/${courseCode.trim().toLowerCase()}/$year/${fileName.toLowerCase()}";
+
+        await _storage.ref(storagePath).putFile(File(filePath));
+
+        // Get the download URL of the uploaded file
+        String downloadURL = await _storage.ref(storagePath).getDownloadURL();
+
+        log('File uploaded to: $downloadURL');
+      } catch (e) {
+        log('Error uploading file: $e');
+      }
+    }
+  }
 }
