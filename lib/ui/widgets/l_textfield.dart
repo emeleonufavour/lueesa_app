@@ -22,6 +22,8 @@ class LTextField extends StatelessWidget {
   final bool obscureText;
   final String? prefixText;
   final FocusNode? focusNode;
+  final int? maxLines;
+  final TextInputAction? textInputAction;
   const LTextField(
       {this.label,
       required this.hintText,
@@ -39,6 +41,8 @@ class LTextField extends StatelessWidget {
       this.suffixIcon,
       this.prefixText,
       this.focusNode,
+      this.maxLines,
+      this.textInputAction,
       this.obscureText = false,
       super.key});
 
@@ -72,8 +76,10 @@ class LTextField extends StatelessWidget {
               controller: textCtr,
               validator: validate,
               onChanged: onChanged,
+              maxLines: maxLines,
               onFieldSubmitted: onFieldSubmitted,
               onEditingComplete: onEditingComplete,
+              textInputAction: textInputAction,
               style: TextStyle(
                   fontFamily: 'EuclidCircularA',
                   color: Colors.black,

@@ -16,6 +16,7 @@ class HomeViewModel extends BaseViewModel {
   late ScrollController scrollController;
   bool _showInfo = false;
   final hour = DateTime.now().hour;
+  bool _isBoxTapped = false;
   Greeting? greeting;
   final _navService = locator<NavigationService>();
   File? imgFile;
@@ -29,9 +30,15 @@ class HomeViewModel extends BaseViewModel {
   ];
 
   bool get showInfo => _showInfo;
+  bool get isBoxTapped => _isBoxTapped;
 
   set showInfo(bool value) {
     _showInfo = value;
+    notifyListeners();
+  }
+
+  set isBoxTapped(bool value) {
+    _isBoxTapped = value;
     notifyListeners();
   }
 

@@ -2,7 +2,9 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:lueesa_app/core/models/info_box.dart';
 import 'package:lueesa_app/core/models/time_table.dart';
 
 class StorageService {
@@ -150,5 +152,43 @@ class StorageService {
       log('Error adding course to the "courses" array: $e');
     }
     return false;
+  }
+
+  //CRUD operations on Info Box.....
+  String boardCollection = "info_board";
+
+  //Create
+  Future<void> addInfo(InfoBox note) async {
+    String userId = FirebaseAuth.instance.currentUser?.uid ?? 'unknown';
+    DateTime time = DateTime.now();
+    String timeStamp =
+        "${time.month}.${time.day}.${time.hour}.${time.minute}.${time.second}";
+    await FirebaseFirestore.instance
+        .collection(boardCollection)
+        .doc(timeStamp)
+        .set({
+      'userId': userId,
+      'from': note.from,
+      'to': note.to,
+      'data': note.message,
+      'time': timeStamp,
+    });
+  }
+
+  //Update
+  Future<void> updateInfo(String noteId, String newText) async {
+    log("Updating box with id ==> $noteId");
+    await FirebaseFirestore.instance
+        .collection(boardCollection)
+        .doc(noteId)
+        .update({'data': newText});
+  }
+
+  //Delete
+  deleteInfo(String noteId) async {
+    await FirebaseFirestore.instance
+        .collection(boardCollection)
+        .doc(noteId)
+        .delete();
   }
 }
