@@ -107,17 +107,17 @@ class _HomeViewState extends State<HomeView> {
                           ),
                           onTap: () => viewModel.goToTimeTable(),
                         ),
-                        ListTile(
-                          leading: const Icon(
-                            Icons.subject,
-                            color: Colors.black,
-                          ),
-                          title: const TextWidget(
-                            text: "Course Information",
-                            fontWeight: FontWeight.bold,
-                          ),
-                          onTap: () {},
-                        ),
+                        // ListTile(
+                        //   leading: const Icon(
+                        //     Icons.subject,
+                        //     color: Colors.black,
+                        //   ),
+                        //   title: const TextWidget(
+                        //     text: "Course Information",
+                        //     fontWeight: FontWeight.bold,
+                        //   ),
+                        //   onTap: () {},
+                        // ),
                         ListTile(
                           leading: const Icon(
                             Icons.person,
@@ -127,7 +127,7 @@ class _HomeViewState extends State<HomeView> {
                             text: "Executives",
                             fontWeight: FontWeight.bold,
                           ),
-                          onTap: () {},
+                          onTap: () => viewModel.goToExecutives(),
                         ),
                       ],
                     ),

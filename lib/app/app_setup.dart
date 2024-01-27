@@ -5,6 +5,7 @@ import 'package:stacked/stacked_annotations.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 import '../ui/views/auth/login/login_view.dart';
+import '../ui/views/executives/execs_view.dart';
 import '../ui/views/home/home.dart';
 import '../ui/views/note_upload/note_upload_screen.dart';
 import '../ui/views/notes_view/notes_view.dart';
@@ -24,6 +25,7 @@ import '../ui/views/time_table/time_table_view.dart';
   AdaptiveRoute(page: AddCourseView),
   AdaptiveRoute(page: NotesUploadScreen),
   AdaptiveRoute(page: NotesView),
+  AdaptiveRoute(page: ExecsView)
 ], dependencies: [
   LazySingleton(classType: NavigationService),
   LazySingleton(classType: AuthService),

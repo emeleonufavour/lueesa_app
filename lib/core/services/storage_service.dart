@@ -346,9 +346,34 @@ class StorageService {
     }
   }
 
+  //Carousel
   //.......................
   Future<List<Map<String, String>>> getCarouselImages() async {
     String directoryPath = "carousel/";
+    try {
+      ListResult listResult =
+          await FirebaseStorage.instance.ref().child(directoryPath).list();
+      List<Map<String, String>> contents = [];
+
+      for (Reference item in listResult.items) {
+        String downloadUrl = await item.getDownloadURL();
+        String name = item.name;
+        log("Name => ${item.name}");
+        contents.add({"name": name, "downloadUrl": downloadUrl});
+        // downloadUrls.add(downloadUrl);
+      }
+
+      return contents;
+    } catch (e) {
+      log('Error fetching images: $e');
+      return [];
+    }
+  }
+
+  //Executives
+  //...............................
+  Future<List<Map<String, String>>> getExecsImages() async {
+    String directoryPath = "execs/";
     try {
       ListResult listResult =
           await FirebaseStorage.instance.ref().child(directoryPath).list();

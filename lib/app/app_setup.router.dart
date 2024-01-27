@@ -5,9 +5,10 @@
 // **************************************************************************
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:flutter/material.dart' as _i11;
+import 'package:flutter/material.dart' as _i12;
 import 'package:flutter/material.dart';
 import 'package:lueesa_app/ui/views/auth/login/login_view.dart' as _i3;
+import 'package:lueesa_app/ui/views/executives/execs_view.dart' as _i11;
 import 'package:lueesa_app/ui/views/home/home.dart' as _i4;
 import 'package:lueesa_app/ui/views/note_upload/note_upload_screen.dart' as _i9;
 import 'package:lueesa_app/ui/views/notes_view/notes_view.dart' as _i10;
@@ -18,7 +19,7 @@ import 'package:lueesa_app/ui/views/time_table/bottom_sheet/add_course_bm.dart'
     as _i8;
 import 'package:lueesa_app/ui/views/time_table/time_table_view.dart' as _i7;
 import 'package:stacked/stacked.dart' as _i1;
-import 'package:stacked_services/stacked_services.dart' as _i12;
+import 'package:stacked_services/stacked_services.dart' as _i13;
 
 class Routes {
   static const splashScreenView = '/';
@@ -39,6 +40,8 @@ class Routes {
 
   static const notesView = '/notes-view';
 
+  static const execsView = '/execs-view';
+
   static const all = <String>{
     splashScreenView,
     loginView,
@@ -49,6 +52,7 @@ class Routes {
     addCourseView,
     notesUploadScreen,
     notesView,
+    execsView,
   };
 }
 
@@ -89,6 +93,10 @@ class StackedRouter extends _i1.RouterBase {
     _i1.RouteDef(
       Routes.notesView,
       page: _i10.NotesView,
+    ),
+    _i1.RouteDef(
+      Routes.execsView,
+      page: _i11.ExecsView,
     ),
   ];
 
@@ -152,6 +160,12 @@ class StackedRouter extends _i1.RouterBase {
         settings: data,
       );
     },
+    _i11.ExecsView: (data) {
+      return _i1.buildAdaptivePageRoute<dynamic>(
+        builder: (context) => const _i11.ExecsView(),
+        settings: data,
+      );
+    },
   };
 
   @override
@@ -175,7 +189,7 @@ class NotesViewArguments {
 
   final String level;
 
-  final _i11.Key? key;
+  final _i12.Key? key;
 
   @override
   String toString() {
@@ -197,7 +211,7 @@ class NotesViewArguments {
   }
 }
 
-extension NavigatorStateExtension on _i12.NavigationService {
+extension NavigatorStateExtension on _i13.NavigationService {
   Future<dynamic> navigateToSplashScreenView([
     int? routerId,
     bool preventDuplicates = true,
@@ -314,7 +328,7 @@ extension NavigatorStateExtension on _i12.NavigationService {
     required String courseCode,
     required String title,
     required String level,
-    _i11.Key? key,
+    _i12.Key? key,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -324,6 +338,20 @@ extension NavigatorStateExtension on _i12.NavigationService {
     return navigateTo<dynamic>(Routes.notesView,
         arguments: NotesViewArguments(
             courseCode: courseCode, title: title, level: level, key: key),
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
+  Future<dynamic> navigateToExecsView([
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  ]) async {
+    return navigateTo<dynamic>(Routes.execsView,
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,
@@ -446,7 +474,7 @@ extension NavigatorStateExtension on _i12.NavigationService {
     required String courseCode,
     required String title,
     required String level,
-    _i11.Key? key,
+    _i12.Key? key,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -456,6 +484,20 @@ extension NavigatorStateExtension on _i12.NavigationService {
     return replaceWith<dynamic>(Routes.notesView,
         arguments: NotesViewArguments(
             courseCode: courseCode, title: title, level: level, key: key),
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
+  Future<dynamic> replaceWithExecsView([
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  ]) async {
+    return replaceWith<dynamic>(Routes.execsView,
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,

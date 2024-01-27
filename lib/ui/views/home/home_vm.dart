@@ -85,4 +85,6 @@ class HomeViewModel extends BaseViewModel {
   goToTimeTable() => _navService.navigateToTimeTableView();
 
   goToUploadNotes() => _navService.navigateToNotesUploadScreen();
+
+  goToExecutives() => _navService.navigateToExecsView();
 }
