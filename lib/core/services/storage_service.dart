@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:collection/collection.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:lueesa_app/core/models/info_box.dart';
@@ -37,7 +38,7 @@ class StorageService {
       required String courseCode,
       required String year}) async {
     String directoryPath =
-        "past_questions/$level/${courseCode.trim().toLowerCase()}/$year/";
+        "past_questions/$level/${courseCode.replaceAll(' ', '').trim().toLowerCase()}/$year/";
     try {
       ListResult listResult =
           await FirebaseStorage.instance.ref().child(directoryPath).list();
@@ -106,7 +107,7 @@ class StorageService {
         switch (day.toLowerCase()) {
           case "monday":
             List courses = timetables[0]['courses'];
-            if (!courses.contains(course.toJson())) {
+            if (!courses.contains(course.hashCode)) {
               courses.add(course.toJson());
             }
 
@@ -150,6 +151,105 @@ class StorageService {
       return true;
     } catch (e) {
       log('Error adding course to the "courses" array: $e');
+    }
+    return false;
+  }
+
+  //Delete course from timetable
+  Future<bool> deleteCourseFromTimetable(
+      {required String level,
+      required String day,
+      required String code,
+      required String title,
+      required String lect,
+      required String time}) async {
+    CollectionReference collection = _firestore.collection('timetables');
+    DocumentReference documentReference = collection.doc(level);
+    String fieldToUpdate = 'days';
+
+    try {
+      // Get the timetable for particular level from firestore
+      DocumentSnapshot docSnapshot = await documentReference.get();
+
+      if (docSnapshot.exists) {
+        // Store the timetable in a new variable
+        List<Map<String, dynamic>> timetables = List<Map<String, dynamic>>.from(
+            (docSnapshot.data() as Map<String, dynamic>)[fieldToUpdate]);
+
+        log("Old timetable ==> $timetables");
+
+        // update the properties of the local variable
+        Course course =
+            Course(code: code, lect: lect, time: time, title: title);
+        log("The json ==> ${course.toJson()}");
+        switch (day.toLowerCase()) {
+          case "monday":
+            List courses = timetables[0]['courses'];
+
+            for (int i = courses.length - 1; i >= 0; i--) {
+              if (const MapEquality().equals(courses[i], course.toJson())) {
+                courses.removeAt(i);
+              }
+            }
+
+            //  courses.remove(course.toJson());
+
+            break;
+          case "tuesday":
+            List courses = timetables[1]['courses'];
+            for (int i = courses.length - 1; i >= 0; i--) {
+              if (const MapEquality().equals(courses[i], course.toJson())) {
+                courses.removeAt(i);
+              }
+            }
+            // courses.remove(course.toJson());
+
+            break;
+          case "wednesday":
+            List courses = timetables[2]['courses'];
+            for (int i = courses.length - 1; i >= 0; i--) {
+              if (const MapEquality().equals(courses[i], course.toJson())) {
+                courses.removeAt(i);
+              }
+            }
+            //  courses.remove(course.toJson());
+
+            break;
+          case "thursday":
+            List courses = timetables[3]['courses'];
+            for (int i = courses.length - 1; i >= 0; i--) {
+              if (const MapEquality().equals(courses[i], course.toJson())) {
+                courses.removeAt(i);
+              }
+            }
+            // courses.remove(course.toJson());
+
+            break;
+          case "friday":
+            List courses = timetables[4]['courses'];
+            for (int i = courses.length - 1; i >= 0; i--) {
+              if (const MapEquality().equals(courses[i], course.toJson())) {
+                courses.removeAt(i);
+              }
+            }
+            //  courses.remove(course.toJson());
+
+            break;
+          default:
+            log("Day isn't well formatted");
+
+          // upload the local variable as a new field
+        }
+        log("Updating timetable");
+        await documentReference.update({
+          fieldToUpdate: timetables,
+        });
+        log("New Timetable ==> $timetables");
+      }
+      log('Course delted to the "courses" array successfully!');
+      return true;
+    } catch (e) {
+      log('Error deleting course to the "courses" array: $e');
     }
     return false;
   }
@@ -204,7 +304,7 @@ class StorageService {
         String fileName = filePath.split('/').last;
 
         String storagePath =
-            "notes/$level/${courseCode.trim().toLowerCase()}/$year/${fileName.toLowerCase()}";
+            "notes/$level/${courseCode.trim().toLowerCase()}/${fileName.toLowerCase()}";
 
         await _storage.ref(storagePath).putFile(File(filePath));
 
@@ -215,6 +315,57 @@ class StorageService {
       } catch (e) {
         log('Error uploading file: $e');
       }
+    }
+  }
+
+  Future<List<Map<String, String>>?> getNotesFromStorage({
+    required String level,
+    required String courseCode,
+  }) async {
+    String directoryPath =
+        "notes/$level/${courseCode.replaceAll(' ', '').trim().toLowerCase()}/";
+    log("Checking directory path for getting notes ==> $directoryPath");
+    try {
+      log("hmmm");
+      ListResult listResult =
+          await FirebaseStorage.instance.ref().child(directoryPath).list();
+      log("List result ==> ${listResult.items}");
+      List<Map<String, String>> contents = [];
+
+      for (Reference item in listResult.items) {
+        String downloadUrl = await item.getDownloadURL();
+        String name = item.name;
+        log("Name => ${item.name}");
+        contents.add({"name": name, "downloadUrl": downloadUrl});
+        // downloadUrls.add(downloadUrl);
+      }
+
+      return contents;
+    } catch (e) {
+      log('Error fetching images: $e');
+    }
+  }
+
+  //.......................
+  Future<List<Map<String, String>>> getCarouselImages() async {
+    String directoryPath = "carousel/";
+    try {
+      ListResult listResult =
+          await FirebaseStorage.instance.ref().child(directoryPath).list();
+      List<Map<String, String>> contents = [];
+
+      for (Reference item in listResult.items) {
+        String downloadUrl = await item.getDownloadURL();
+        String name = item.name;
+        log("Name => ${item.name}");
+        contents.add({"name": name, "downloadUrl": downloadUrl});
+        // downloadUrls.add(downloadUrl);
+      }
+
+      return contents;
+    } catch (e) {
+      log('Error fetching images: $e');
+      return [];
     }
   }
 }

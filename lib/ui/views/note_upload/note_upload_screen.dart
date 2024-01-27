@@ -26,7 +26,7 @@ class _PastQuestionUploadScreenState extends State<NotesUploadScreen>
   Widget build(BuildContext context) {
     final size = MediaQuery.sizeOf(context);
     return ViewModelBuilder.reactive(
-        viewModelBuilder: () => NotesViewModel(),
+        viewModelBuilder: () => NotesUploadViewModel(),
         onViewModelReady: (viewModel) {
           // viewModel.sessionCtr.addListener(() {
           //   viewModel.onTextChanged();
@@ -134,6 +134,7 @@ class _PastQuestionUploadScreenState extends State<NotesUploadScreen>
                                           text: model.level,
                                           onChanged: (value) {
                                             model.level = value;
+                                            log("Level ==> $value");
                                           },
                                           tapped: model.tapped,
                                           onTapped: (bool? value) {
@@ -146,16 +147,17 @@ class _PastQuestionUploadScreenState extends State<NotesUploadScreen>
                                           hintText:
                                               "Enter course code eg. eie314",
                                           maxLines: 1,
+                                          keyboardType: TextInputType.text,
                                           textCtr: model.courseCodeCtr),
-                                      LTextField(
-                                          label: "Session",
-                                          hintText: "Enter session eg. 2023_24",
-                                          maxLines: 1,
-                                          onChanged: (p0) {
-                                            model.resize = true;
-                                            log("Resize => ${model.resize}");
-                                          },
-                                          textCtr: model.sessionCtr),
+                                      // LTextField(
+                                      //     label: "Session",
+                                      //     hintText: "Enter session eg. 2023_24",
+                                      //     maxLines: 1,
+                                      //     onChanged: (p0) {
+                                      //       model.resize = true;
+                                      //       log("Resize => ${model.resize}");
+                                      //     },
+                                      //     textCtr: model.sessionCtr),
                                       LButton(
                                         label: model.fileName ?? "Pick note",
                                         color: AppColor.darkBlue,
@@ -223,6 +225,7 @@ class _PastQuestionUploadScreenState extends State<NotesUploadScreen>
                                           text: model.level,
                                           onChanged: (value) {
                                             model.level = value;
+                                            log("Level ==> ${model.level}");
                                           },
                                           tapped: model.tapped,
                                           onTapped: (bool? value) {
@@ -235,19 +238,19 @@ class _PastQuestionUploadScreenState extends State<NotesUploadScreen>
                                           hintText:
                                               "Enter course code eg. eie314",
                                           textCtr: model.courseCodeCtr),
-                                      LTextField(
-                                          label: "Session",
-                                          hintText: "Enter session eg. 2023_24",
-                                          focusNode: model.sessionFocusNode,
-                                          onTap: () {
-                                            model.resize = true;
-                                            model.typingTime?.cancel();
-                                          },
-                                          onEditingComplete: () {
-                                            model.sessionFocusNode.unfocus();
-                                            model.onTextChanged();
-                                          },
-                                          textCtr: model.sessionCtr),
+                                      // LTextField(
+                                      //     label: "Session",
+                                      //     hintText: "Enter session eg. 2023_24",
+                                      //     focusNode: model.sessionFocusNode,
+                                      //     onTap: () {
+                                      //       model.resize = true;
+                                      //       model.typingTime?.cancel();
+                                      //     },
+                                      //     onEditingComplete: () {
+                                      //       model.sessionFocusNode.unfocus();
+                                      //       model.onTextChanged();
+                                      //     },
+                                      //     textCtr: model.sessionCtr),
                                       LButton(
                                         label: model.fileName ?? "Pick note",
                                         color: AppColor.darkBlue,

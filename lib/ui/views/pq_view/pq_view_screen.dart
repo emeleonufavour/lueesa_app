@@ -24,56 +24,67 @@ class PQViewScreen extends StatelessWidget {
     final size = MediaQuery.sizeOf(context);
     return ViewModelBuilder.reactive(
         viewModelBuilder: () => PQViewViewModel(),
-        builder: (context, viewModel, _) => Scaffold(
-              // body: ImagesInDirectory(
-              //     directoryPath: 'past_questions/300/eie310/'),
-              body: SafeArea(
-                child: SingleChildScrollView(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15),
-                    child: Column(
-                      children: [
-                        LDropDown(
-                          label: "Level of Study",
-                          dropDownList: const [
-                            "500",
-                            "400",
-                            "300",
-                            "200",
-                            "100"
-                          ],
-                          hintText: "Choose Level of Study",
-                          dropDownHeight: size.height * 0.2,
-                          text: viewModel.level,
-                          onChanged: (val) {
-                            viewModel.level = val!;
-                          },
-                          onTapped: (bool? value) {},
-                        ),
-                        LTextField(
-                            label: "Course Code",
-                            hintText: "Type in course code eg. eie310",
-                            textCtr: viewModel.courseCodeCtr),
-                        LTextField(
-                            label: "Session",
-                            hintText: "Type in session eg. 2023_24",
-                            textCtr: viewModel.sessionCtr),
-                        GetButton(
-                          get: "Papers",
-                          onTap: () async => await viewModel.getPapers(context),
-                        ),
-                        if (viewModel.isBusy)
-                          Center(
-                            child: Lottie.asset(
-                                "assets/lotties/hand-loading.json",
-                                animate: true,
-                                repeat: true),
+        builder: (context, viewModel, _) => GestureDetector(
+              onTap: () {
+                FocusScope.of(context).unfocus();
+              },
+              child: Scaffold(
+                // body: ImagesInDirectory(
+                //     directoryPath: 'past_questions/300/eie310/'),
+                body: SafeArea(
+                  child: SingleChildScrollView(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15),
+                      child: Column(
+                        children: [
+                          LDropDown(
+                            label: "Level of Study",
+                            dropDownList: const [
+                              "500",
+                              "400",
+                              "300",
+                              "200",
+                              "100"
+                            ],
+                            hintText: "Choose Level of Study",
+                            dropDownHeight: size.height * 0.2,
+                            text: viewModel.level,
+                            onChanged: (val) {
+                              viewModel.level = val!;
+                            },
+                            onTapped: (bool? value) {},
                           ),
-                        if (viewModel.contents.isNotEmpty && !viewModel.isBusy)
-                          Images(
-                              viewModel: viewModel,
-                              contents: viewModel.contents)
-                      ],
+                          LTextField(
+                              label: "Course Code",
+                              maxLines: 1,
+                              keyboardType: TextInputType.text,
+                              hintText: "Type in course code eg. eie310",
+                              textCtr: viewModel.courseCodeCtr),
+                          LTextField(
+                              label: "Session",
+                              maxLines: 1,
+                              keyboardType: TextInputType.text,
+                              hintText: "Type in session eg. 2023_24",
+                              textCtr: viewModel.sessionCtr),
+                          GetButton(
+                            get: "Papers",
+                            onTap: () async =>
+                                await viewModel.getPapers(context),
+                          ),
+                          if (viewModel.isBusy)
+                            Center(
+                              child: Lottie.asset(
+                                  "assets/lotties/hand-loading.json",
+                                  animate: true,
+                                  repeat: true),
+                            ),
+                          if (viewModel.contents.isNotEmpty &&
+                              !viewModel.isBusy)
+                            Images(
+                                viewModel: viewModel,
+                                contents: viewModel.contents)
+                        ],
+                      ),
                     ),
                   ),
                 ),

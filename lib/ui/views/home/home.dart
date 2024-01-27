@@ -4,18 +4,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
-import 'package:go_router/go_router.dart';
-import 'package:lueesa_app/app/routing/screen_path.dart';
 import 'package:lueesa_app/core/models/info_box.dart';
 import 'package:lueesa_app/ui/dialogs/add_info_dialog/add_info_dialog.dart';
-import 'package:lueesa_app/ui/style/app_colors.dart';
 import 'package:lueesa_app/ui/utilities/l_text.dart';
 import 'package:lueesa_app/ui/views/home/home_vm.dart';
 import 'package:lueesa_app/ui/widgets/l_info_box.dart';
 import 'package:stacked/stacked.dart';
 
 import '../../style/app_assets.dart';
-import '../../widgets/l_rich_text.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -31,7 +27,7 @@ class _HomeViewState extends State<HomeView> {
     GlobalKey scaffoldKey = GlobalKey<ScaffoldState>();
     return ViewModelBuilder.reactive(
         viewModelBuilder: () => HomeViewModel(),
-        onViewModelReady: (viewModel) {
+        onViewModelReady: (viewModel) async {
           viewModel.knowGreeting();
           viewModel.scrollController = ScrollController()
             ..addListener(() {
@@ -44,6 +40,7 @@ class _HomeViewState extends State<HomeView> {
                 viewModel.showInfo = false;
               }
             });
+          await viewModel.getCarouselImages(context);
         },
         builder: ((context, viewModel, child) => GestureDetector(
               onTap: () {
@@ -143,15 +140,19 @@ class _HomeViewState extends State<HomeView> {
                         if (!snapshot.hasData) {
                           return CircularProgressIndicator.adaptive();
                         }
-                        List<InfoBox> notes = snapshot.data!.docs.map((doc) {
-                          Map<String, dynamic> data =
-                              doc.data() as Map<String, dynamic>;
-                          return InfoBox(
-                              from: data["from"],
-                              to: data["to"],
-                              message: data["data"],
-                              time: data['time']);
-                        }).toList();
+                        List<InfoBox> notes = snapshot.data!.docs
+                            .map((doc) {
+                              Map<String, dynamic> data =
+                                  doc.data() as Map<String, dynamic>;
+                              return InfoBox(
+                                  from: data["from"],
+                                  to: data["to"],
+                                  message: data["data"],
+                                  time: data['time']);
+                            })
+                            .toList()
+                            .reversed
+                            .toList();
                         return CustomScrollView(
                           controller: viewModel.scrollController,
                           slivers: [
@@ -188,7 +189,8 @@ class _HomeViewState extends State<HomeView> {
                             ),
                             SliverList(
                                 delegate: SliverChildListDelegate([
-                              HomePictures(viewModel: viewModel),
+                              if (viewModel.carouselImages.isNotEmpty)
+                                HomePictures(viewModel: viewModel),
                               Gap(75.h),
                               Padding(
                                 padding: const EdgeInsets.symmetric(
@@ -228,7 +230,8 @@ class HomePictures extends StatelessWidget {
                 margin: const EdgeInsets.all(5.0),
                 child: ClipRRect(
                     borderRadius: const BorderRadius.all(Radius.circular(5.0)),
-                    child: Image.asset(item, fit: BoxFit.cover, width: 1000.0)),
+                    child: Image.network(item["downloadUrl"]!,
+                        fit: BoxFit.cover, width: 1000.0)),
               ),
             )
             .toList(),

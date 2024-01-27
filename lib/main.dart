@@ -14,6 +14,7 @@ import 'app/app_setup.locator.dart';
 import 'app/app_setup.router.dart';
 import 'firebase_options.dart';
 import 'ui/views/home/home.dart';
+import 'ui/views/notes_view/notes_view.dart';
 import 'ui/views/test/test.dart';
 
 void main() async {
@@ -56,7 +57,11 @@ class MainApp extends StatelessWidget {
             navigatorKey: StackedService.navigatorKey,
             onGenerateRoute: StackedRouter().onGenerateRoute,
             home: const SplashScreenView()
-            //home: HomeView(),
+            // home: NotesView(
+            //   courseCode: "EIE 310",
+            //   title: "Electrical magnetic",
+            //   level: "300",
+            // ),
             ),
       ),
     );

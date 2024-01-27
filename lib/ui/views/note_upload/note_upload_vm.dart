@@ -10,7 +10,7 @@ import 'package:stacked/stacked.dart';
 import '../../../app/app_setup.locator.dart';
 import '../../../core/services/storage_service.dart';
 
-class NotesViewModel extends BaseViewModel {
+class NotesUploadViewModel extends BaseViewModel {
   final StorageService _storageService = locator<StorageService>();
   TextEditingController imgNameCtr = TextEditingController();
   final FocusNode sessionFocusNode = FocusNode();
@@ -81,10 +81,7 @@ class NotesViewModel extends BaseViewModel {
   }
 
   uploadFile(BuildContext context) async {
-    if (_filePath != null &&
-        level != null &&
-        courseCodeCtr.text.isNotEmpty &&
-        sessionCtr.text.isNotEmpty) {
+    if (_filePath != null && level != null && courseCodeCtr.text.isNotEmpty) {
       setBusy(true);
       try {
         await _storageService.uploadFileToStorage(

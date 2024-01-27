@@ -74,6 +74,48 @@ class TimeTableViewModel extends BaseViewModel {
     setBusy(false);
   }
 
+  deleteCourseFromTimetable(
+      {required BuildContext context,
+      required String day,
+      required String code,
+      required String title,
+      required String lect,
+      required String time}) async {
+    bool result = await _storageService.deleteCourseFromTimetable(
+        level: _level!,
+        day: day,
+        code: code,
+        title: title,
+        lect: lect,
+        time: time);
+    if (context.mounted) {
+      if (result) {
+        IconSnackBar.show(
+            context: context,
+            label: "Deleted successfully",
+            snackBarType: SnackBarType.save);
+        // for (int i = _animatedCourses.length - 1; i >= 0; i--) {
+        //   if (const MapEquality().equals(
+        //       _animatedCourses[i],
+        //       Course(
+        //               code: e["code"],
+        //               title: e["title"],
+        //               lect: e["lect"],
+        //               time: e['time'])
+        //           .toJson())) {
+        //     _animatedCourses.removeAt(i);
+        //   }
+        // }
+        // courses.remove(course.toJson());
+      } else {
+        IconSnackBar.show(
+            context: context,
+            label: "Could not delete",
+            snackBarType: SnackBarType.fail);
+      }
+    }
+  }
+
   // List<Map<String, dynamic>> timeTable = [
   //   {
   //     "day": "Monday",

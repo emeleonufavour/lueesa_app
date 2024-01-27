@@ -5,10 +5,12 @@
 // **************************************************************************
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
+import 'package:flutter/material.dart' as _i11;
 import 'package:flutter/material.dart';
 import 'package:lueesa_app/ui/views/auth/login/login_view.dart' as _i3;
 import 'package:lueesa_app/ui/views/home/home.dart' as _i4;
 import 'package:lueesa_app/ui/views/note_upload/note_upload_screen.dart' as _i9;
+import 'package:lueesa_app/ui/views/notes_view/notes_view.dart' as _i10;
 import 'package:lueesa_app/ui/views/pq_upload/pq_upload_screen.dart' as _i5;
 import 'package:lueesa_app/ui/views/pq_view/pq_view_screen.dart' as _i6;
 import 'package:lueesa_app/ui/views/splash_screen/splash_view.dart' as _i2;
@@ -16,7 +18,7 @@ import 'package:lueesa_app/ui/views/time_table/bottom_sheet/add_course_bm.dart'
     as _i8;
 import 'package:lueesa_app/ui/views/time_table/time_table_view.dart' as _i7;
 import 'package:stacked/stacked.dart' as _i1;
-import 'package:stacked_services/stacked_services.dart' as _i10;
+import 'package:stacked_services/stacked_services.dart' as _i12;
 
 class Routes {
   static const splashScreenView = '/';
@@ -35,6 +37,8 @@ class Routes {
 
   static const notesUploadScreen = '/notes-upload-screen';
 
+  static const notesView = '/notes-view';
+
   static const all = <String>{
     splashScreenView,
     loginView,
@@ -44,6 +48,7 @@ class Routes {
     timeTableView,
     addCourseView,
     notesUploadScreen,
+    notesView,
   };
 }
 
@@ -80,6 +85,10 @@ class StackedRouter extends _i1.RouterBase {
     _i1.RouteDef(
       Routes.notesUploadScreen,
       page: _i9.NotesUploadScreen,
+    ),
+    _i1.RouteDef(
+      Routes.notesView,
+      page: _i10.NotesView,
     ),
   ];
 
@@ -132,6 +141,17 @@ class StackedRouter extends _i1.RouterBase {
         settings: data,
       );
     },
+    _i10.NotesView: (data) {
+      final args = data.getArgs<NotesViewArguments>(nullOk: false);
+      return _i1.buildAdaptivePageRoute<dynamic>(
+        builder: (context) => _i10.NotesView(
+            courseCode: args.courseCode,
+            title: args.title,
+            level: args.level,
+            key: args.key),
+        settings: data,
+      );
+    },
   };
 
   @override
@@ -141,7 +161,43 @@ class StackedRouter extends _i1.RouterBase {
   Map<Type, _i1.StackedRouteFactory> get pagesMap => _pagesMap;
 }
 
-extension NavigatorStateExtension on _i10.NavigationService {
+class NotesViewArguments {
+  const NotesViewArguments({
+    required this.courseCode,
+    required this.title,
+    required this.level,
+    this.key,
+  });
+
+  final String courseCode;
+
+  final String title;
+
+  final String level;
+
+  final _i11.Key? key;
+
+  @override
+  String toString() {
+    return '{"courseCode": "$courseCode", "title": "$title", "level": "$level", "key": "$key"}';
+  }
+
+  @override
+  bool operator ==(covariant NotesViewArguments other) {
+    if (identical(this, other)) return true;
+    return other.courseCode == courseCode &&
+        other.title == title &&
+        other.level == level &&
+        other.key == key;
+  }
+
+  @override
+  int get hashCode {
+    return courseCode.hashCode ^ title.hashCode ^ level.hashCode ^ key.hashCode;
+  }
+}
+
+extension NavigatorStateExtension on _i12.NavigationService {
   Future<dynamic> navigateToSplashScreenView([
     int? routerId,
     bool preventDuplicates = true,
@@ -254,6 +310,26 @@ extension NavigatorStateExtension on _i10.NavigationService {
         transition: transition);
   }
 
+  Future<dynamic> navigateToNotesView({
+    required String courseCode,
+    required String title,
+    required String level,
+    _i11.Key? key,
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  }) async {
+    return navigateTo<dynamic>(Routes.notesView,
+        arguments: NotesViewArguments(
+            courseCode: courseCode, title: title, level: level, key: key),
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
   Future<dynamic> replaceWithSplashScreenView([
     int? routerId,
     bool preventDuplicates = true,
@@ -360,6 +436,26 @@ extension NavigatorStateExtension on _i10.NavigationService {
         transition,
   ]) async {
     return replaceWith<dynamic>(Routes.notesUploadScreen,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
+  Future<dynamic> replaceWithNotesView({
+    required String courseCode,
+    required String title,
+    required String level,
+    _i11.Key? key,
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  }) async {
+    return replaceWith<dynamic>(Routes.notesView,
+        arguments: NotesViewArguments(
+            courseCode: courseCode, title: title, level: level, key: key),
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,
