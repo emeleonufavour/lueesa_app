@@ -34,7 +34,7 @@ class CourseBox extends StatelessWidget {
           children: [
             //Course code
             TextWidget(
-              text: courseCode,
+              text: courseCode.toUpperCase(),
               fontsize: 20.sp,
               fontWeight: FontWeight.bold,
             ),

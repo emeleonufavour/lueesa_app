@@ -48,13 +48,16 @@ class _HomeViewState extends State<HomeView> {
               },
               child: Scaffold(
                   key: scaffoldKey,
-                  floatingActionButton: FloatingActionButton(onPressed: () {
-                    showDialog(
-                        context: context,
-                        builder: (context) {
-                          return AddInfoDialog();
-                        });
-                  }),
+                  floatingActionButton: FloatingActionButton(
+                    onPressed: () {
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AddInfoDialog();
+                          });
+                    },
+                    child: const Icon(Icons.add),
+                  ),
                   drawer: Drawer(
                     child: ListView(
                       padding: EdgeInsets.zero,
@@ -231,7 +234,7 @@ class HomePictures extends StatelessWidget {
                 child: ClipRRect(
                     borderRadius: const BorderRadius.all(Radius.circular(5.0)),
                     child: Image.network(item["downloadUrl"]!,
-                        fit: BoxFit.cover, width: 1000.0)),
+                        fit: BoxFit.fill, width: 1000.0)),
               ),
             )
             .toList(),

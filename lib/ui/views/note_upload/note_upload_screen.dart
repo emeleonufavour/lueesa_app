@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:lueesa_app/ui/views/note_upload/note_upload_vm.dart';
-import 'package:lueesa_app/ui/views/pq_upload/pq_upload_vm.dart';
 
 import 'package:lueesa_app/ui/widgets/l_button.dart';
 import 'package:lueesa_app/ui/widgets/l_dropdown.dart';
@@ -116,10 +115,10 @@ class _PastQuestionUploadScreenState extends State<NotesUploadScreen>
                                           maxLines: 1,
                                           textCtr: model.imgNameCtr),
                                       GestureDetector(
-                                        onTap: () {
-                                          model.tapped = !model.tapped;
-                                          log("Tapped => ${model.tapped}");
-                                        },
+                                        // onTap: () {
+                                        //   model.tapped = !model.tapped;
+                                        //   log("Tapped => ${model.tapped}");
+                                        // },
                                         child: LDropDown(
                                           label: "Course Level",
                                           dropDownList: const [
@@ -207,10 +206,10 @@ class _PastQuestionUploadScreenState extends State<NotesUploadScreen>
                                           hintText: "Enter Note name",
                                           textCtr: model.imgNameCtr),
                                       GestureDetector(
-                                        onTap: () {
-                                          model.tapped = !model.tapped;
-                                          log("Tapped => ${model.tapped}");
-                                        },
+                                        // onTap: () {
+                                        //   model.tapped = !model.tapped;
+                                        //   log("Tapped => ${model.tapped}");
+                                        // },
                                         child: LDropDown(
                                           label: "Course Level",
                                           dropDownList: const [
@@ -238,19 +237,7 @@ class _PastQuestionUploadScreenState extends State<NotesUploadScreen>
                                           hintText:
                                               "Enter course code eg. eie314",
                                           textCtr: model.courseCodeCtr),
-                                      // LTextField(
-                                      //     label: "Session",
-                                      //     hintText: "Enter session eg. 2023_24",
-                                      //     focusNode: model.sessionFocusNode,
-                                      //     onTap: () {
-                                      //       model.resize = true;
-                                      //       model.typingTime?.cancel();
-                                      //     },
-                                      //     onEditingComplete: () {
-                                      //       model.sessionFocusNode.unfocus();
-                                      //       model.onTextChanged();
-                                      //     },
-                                      //     textCtr: model.sessionCtr),
+
                                       LButton(
                                         label: model.fileName ?? "Pick note",
                                         color: AppColor.darkBlue,

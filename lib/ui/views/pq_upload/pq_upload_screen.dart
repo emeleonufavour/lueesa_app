@@ -118,10 +118,10 @@ class _PastQuestionUploadScreenState extends State<PastQuestionUploadScreen>
                                           keyboardType: TextInputType.text,
                                           textCtr: model.imgNameCtr),
                                       GestureDetector(
-                                        onTap: () {
-                                          model.tapped = !model.tapped;
-                                          log("Tapped => ${model.tapped}");
-                                        },
+                                        // onTap: () {
+                                        //   model.tapped = !model.tapped;
+                                        //   log("Tapped => ${model.tapped}");
+                                        // },
                                         child: LDropDown(
                                           label: "Course Level",
                                           dropDownList: const [
@@ -214,10 +214,10 @@ class _PastQuestionUploadScreenState extends State<PastQuestionUploadScreen>
                                           hintText: "Enter image name",
                                           textCtr: model.imgNameCtr),
                                       GestureDetector(
-                                        onTap: () {
-                                          model.tapped = !model.tapped;
-                                          log("Tapped => ${model.tapped}");
-                                        },
+                                        // onTap: () {
+                                        //   model.tapped = !model.tapped;
+                                        //   log("Tapped => ${model.tapped}");
+                                        // },
                                         child: LDropDown(
                                           label: "Course Level",
                                           dropDownList: const [
