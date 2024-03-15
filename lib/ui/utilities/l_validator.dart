@@ -11,8 +11,6 @@ class LValidator {
     }
   }
 
-//^[a-zA-Z0-9._%+-]+@lmu\.edu\.ng$
-//^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,}$
   //this validator checks for email
   static String? validateEmail(String value) {
     if (value.isEmpty) {

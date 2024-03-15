@@ -48,7 +48,6 @@ class LTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.sizeOf(context);
     return Padding(
         padding: textFieldPadding ?? EdgeInsets.symmetric(vertical: 12.0.h),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
