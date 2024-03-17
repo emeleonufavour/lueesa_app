@@ -3,15 +3,10 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:lottie/lottie.dart';
-import 'package:lueesa_app/ui/style/app_colors.dart';
-import 'package:lueesa_app/ui/utilities/l_text.dart';
-import 'package:lueesa_app/ui/widgets/l_button.dart';
 import 'package:lueesa_app/ui/widgets/l_dropdown.dart';
 import 'package:lueesa_app/ui/widgets/l_get_button.dart';
 import 'package:lueesa_app/ui/widgets/l_textfield.dart';
 import 'package:stacked/stacked.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/material.dart';
 
 import '../../widgets/image_box.dart';
 import 'pq_view_vm.dart';
@@ -66,8 +61,8 @@ class PQViewScreen extends StatelessWidget {
                               keyboardType: TextInputType.text,
                               hintText: "Type in session eg. 2023_24",
                               textCtr: viewModel.sessionCtr),
-                          GetButton(
-                            get: "Papers",
+                          SmallButton(
+                            text: "Get Papers",
                             onTap: () async =>
                                 await viewModel.getPapers(context),
                           ),

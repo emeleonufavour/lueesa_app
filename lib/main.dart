@@ -9,6 +9,7 @@ import 'package:lueesa_app/core/services/user_service.dart';
 import 'package:lueesa_app/ui/style/app_theme.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:lueesa_app/ui/views/splash_screen/splash_view.dart';
+import 'package:lueesa_app/ui/views/voting/voting_screen.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'app/app_setup.locator.dart';
 import 'app/app_setup.router.dart';
@@ -50,19 +51,20 @@ class MainApp extends StatelessWidget {
         minTextAdapt: true,
         designSize: const Size(412, 890),
         builder: (context, child) => MaterialApp(
-            // useInheritedMediaQuery: true,
-            // locale: DevicePreview.locale(context),
-            // builder: DevicePreview.appBuilder,
-            theme: AppTheme.lightTheme,
-            navigatorKey: StackedService.navigatorKey,
-            onGenerateRoute: StackedRouter().onGenerateRoute,
-            home: const SplashScreenView()
-            // home: NotesView(
-            //   courseCode: "EIE 310",
-            //   title: "Electrical magnetic",
-            //   level: "300",
-            // ),
-            ),
+          // useInheritedMediaQuery: true,
+          // locale: DevicePreview.locale(context),
+          // builder: DevicePreview.appBuilder,
+          theme: AppTheme.lightTheme,
+          navigatorKey: StackedService.navigatorKey,
+          onGenerateRoute: StackedRouter().onGenerateRoute,
+          //home: const SplashScreenView()
+          home: VotingScreen(),
+          // home: NotesView(
+          //   courseCode: "EIE 310",
+          //   title: "Electrical magnetic",
+          //   level: "300",
+          // ),
+        ),
       ),
     );
   }

@@ -68,8 +68,8 @@ class TimeTableView extends StatelessWidget {
                                   model.setLevel = val;
                                 },
                                 onTapped: (val) {}),
-                            GetButton(
-                                get: "Timetable",
+                            SmallButton(
+                                text: "Get Timetable",
                                 onTap: () async =>
                                     await model.getTimetable(context)),
                             Gap(20.h),

@@ -4,16 +4,16 @@ import 'package:flutter/widgets.dart';
 import '../style/app_colors.dart';
 import '../utilities/l_text.dart';
 
-class GetButton extends StatefulWidget {
-  String get;
+class SmallButton extends StatefulWidget {
+  String text;
   void Function()? onTap;
-  GetButton({required this.get, required this.onTap, super.key});
+  SmallButton({required this.text, required this.onTap, super.key});
 
   @override
-  State<GetButton> createState() => _GetButtonState();
+  State<SmallButton> createState() => _GetButtonState();
 }
 
-class _GetButtonState extends State<GetButton>
+class _GetButtonState extends State<SmallButton>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
 
@@ -57,7 +57,7 @@ class _GetButtonState extends State<GetButton>
             child: Padding(
                 padding: const EdgeInsets.all(15),
                 child: TextWidget(
-                  text: "Get ${widget.get}",
+                  text: widget.text,
                   color: Colors.white,
                 )),
           ),
