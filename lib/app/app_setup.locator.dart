@@ -12,6 +12,7 @@ import 'package:stacked_shared/stacked_shared.dart';
 import '../core/services/auth_service.dart';
 import '../core/services/storage_service.dart';
 import '../core/services/user_service.dart';
+import '../core/services/voting_service.dart';
 
 final locator = StackedLocator.instance;
 
@@ -28,4 +29,5 @@ Future<void> setupLocator({
   locator.registerLazySingleton(() => AuthService());
   locator.registerLazySingleton(() => UserService());
   locator.registerLazySingleton(() => StorageService());
+  locator.registerLazySingleton(() => VotingService());
 }

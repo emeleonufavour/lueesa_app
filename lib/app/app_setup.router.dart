@@ -5,9 +5,11 @@
 // **************************************************************************
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:flutter/material.dart' as _i12;
+import 'package:firebase_auth/firebase_auth.dart' as _i15;
+import 'package:flutter/material.dart' as _i14;
 import 'package:flutter/material.dart';
 import 'package:lueesa_app/ui/views/auth/login/login_view.dart' as _i3;
+import 'package:lueesa_app/ui/views/auth/vote_login/vote_login.dart' as _i12;
 import 'package:lueesa_app/ui/views/executives/execs_view.dart' as _i11;
 import 'package:lueesa_app/ui/views/home/home.dart' as _i4;
 import 'package:lueesa_app/ui/views/note_upload/note_upload_screen.dart' as _i9;
@@ -18,8 +20,9 @@ import 'package:lueesa_app/ui/views/splash_screen/splash_view.dart' as _i2;
 import 'package:lueesa_app/ui/views/time_table/bottom_sheet/add_course_bm.dart'
     as _i8;
 import 'package:lueesa_app/ui/views/time_table/time_table_view.dart' as _i7;
+import 'package:lueesa_app/ui/views/voting/voting_screen.dart' as _i13;
 import 'package:stacked/stacked.dart' as _i1;
-import 'package:stacked_services/stacked_services.dart' as _i13;
+import 'package:stacked_services/stacked_services.dart' as _i16;
 
 class Routes {
   static const splashScreenView = '/';
@@ -42,6 +45,10 @@ class Routes {
 
   static const execsView = '/execs-view';
 
+  static const votingLoginScreen = '/voting-login-screen';
+
+  static const votingScreen = '/voting-screen';
+
   static const all = <String>{
     splashScreenView,
     loginView,
@@ -53,6 +60,8 @@ class Routes {
     notesUploadScreen,
     notesView,
     execsView,
+    votingLoginScreen,
+    votingScreen,
   };
 }
 
@@ -97,6 +106,14 @@ class StackedRouter extends _i1.RouterBase {
     _i1.RouteDef(
       Routes.execsView,
       page: _i11.ExecsView,
+    ),
+    _i1.RouteDef(
+      Routes.votingLoginScreen,
+      page: _i12.VotingLoginScreen,
+    ),
+    _i1.RouteDef(
+      Routes.votingScreen,
+      page: _i13.VotingScreen,
     ),
   ];
 
@@ -166,6 +183,19 @@ class StackedRouter extends _i1.RouterBase {
         settings: data,
       );
     },
+    _i12.VotingLoginScreen: (data) {
+      return _i1.buildAdaptivePageRoute<dynamic>(
+        builder: (context) => const _i12.VotingLoginScreen(),
+        settings: data,
+      );
+    },
+    _i13.VotingScreen: (data) {
+      final args = data.getArgs<VotingScreenArguments>(nullOk: false);
+      return _i1.buildAdaptivePageRoute<dynamic>(
+        builder: (context) => _i13.VotingScreen(user: args.user, key: args.key),
+        settings: data,
+      );
+    },
   };
 
   @override
@@ -189,7 +219,7 @@ class NotesViewArguments {
 
   final String level;
 
-  final _i12.Key? key;
+  final _i14.Key? key;
 
   @override
   String toString() {
@@ -211,7 +241,34 @@ class NotesViewArguments {
   }
 }
 
-extension NavigatorStateExtension on _i13.NavigationService {
+class VotingScreenArguments {
+  const VotingScreenArguments({
+    required this.user,
+    this.key,
+  });
+
+  final _i15.User user;
+
+  final _i14.Key? key;
+
+  @override
+  String toString() {
+    return '{"user": "$user", "key": "$key"}';
+  }
+
+  @override
+  bool operator ==(covariant VotingScreenArguments other) {
+    if (identical(this, other)) return true;
+    return other.user == user && other.key == key;
+  }
+
+  @override
+  int get hashCode {
+    return user.hashCode ^ key.hashCode;
+  }
+}
+
+extension NavigatorStateExtension on _i16.NavigationService {
   Future<dynamic> navigateToSplashScreenView([
     int? routerId,
     bool preventDuplicates = true,
@@ -328,7 +385,7 @@ extension NavigatorStateExtension on _i13.NavigationService {
     required String courseCode,
     required String title,
     required String level,
-    _i12.Key? key,
+    _i14.Key? key,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -352,6 +409,37 @@ extension NavigatorStateExtension on _i13.NavigationService {
         transition,
   ]) async {
     return navigateTo<dynamic>(Routes.execsView,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
+  Future<dynamic> navigateToVotingLoginScreen([
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  ]) async {
+    return navigateTo<dynamic>(Routes.votingLoginScreen,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
+  Future<dynamic> navigateToVotingScreen({
+    required _i15.User user,
+    _i14.Key? key,
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  }) async {
+    return navigateTo<dynamic>(Routes.votingScreen,
+        arguments: VotingScreenArguments(user: user, key: key),
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,
@@ -474,7 +562,7 @@ extension NavigatorStateExtension on _i13.NavigationService {
     required String courseCode,
     required String title,
     required String level,
-    _i12.Key? key,
+    _i14.Key? key,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -498,6 +586,37 @@ extension NavigatorStateExtension on _i13.NavigationService {
         transition,
   ]) async {
     return replaceWith<dynamic>(Routes.execsView,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
+  Future<dynamic> replaceWithVotingLoginScreen([
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  ]) async {
+    return replaceWith<dynamic>(Routes.votingLoginScreen,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
+  Future<dynamic> replaceWithVotingScreen({
+    required _i15.User user,
+    _i14.Key? key,
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  }) async {
+    return replaceWith<dynamic>(Routes.votingScreen,
+        arguments: VotingScreenArguments(user: user, key: key),
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,

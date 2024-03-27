@@ -11,6 +11,7 @@ import 'package:lueesa_app/core/models/time_table.dart';
 class StorageService {
   final FirebaseStorage _storage = FirebaseStorage.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
   Future<String?> uploadImage(
       {required File imgFile,
       required String imgName,
@@ -278,7 +279,7 @@ class StorageService {
   //Update
   Future<void> updateInfo(String noteId, String newText) async {
     log("Updating box with id ==> $noteId");
-    await FirebaseFirestore.instance
+    await _firestore
         .collection(boardCollection)
         .doc(noteId)
         .update({'data': newText});
@@ -327,8 +328,7 @@ class StorageService {
     log("Checking directory path for getting notes ==> $directoryPath");
     try {
       log("hmmm");
-      ListResult listResult =
-          await FirebaseStorage.instance.ref().child(directoryPath).list();
+      ListResult listResult = await _storage.ref().child(directoryPath).list();
       log("List result ==> ${listResult.items}");
       List<Map<String, String>> contents = [];
 
@@ -351,8 +351,7 @@ class StorageService {
   Future<List<Map<String, String>>> getCarouselImages() async {
     String directoryPath = "carousel/";
     try {
-      ListResult listResult =
-          await FirebaseStorage.instance.ref().child(directoryPath).list();
+      ListResult listResult = await _storage.ref().child(directoryPath).list();
       List<Map<String, String>> contents = [];
 
       for (Reference item in listResult.items) {
@@ -375,8 +374,7 @@ class StorageService {
   Future<List<Map<String, String>>> getExecsImages() async {
     String directoryPath = "execs/";
     try {
-      ListResult listResult =
-          await FirebaseStorage.instance.ref().child(directoryPath).list();
+      ListResult listResult = await _storage.ref().child(directoryPath).list();
       List<Map<String, String>> contents = [];
 
       for (Reference item in listResult.items) {

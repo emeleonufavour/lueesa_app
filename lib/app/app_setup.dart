@@ -4,7 +4,9 @@ import 'package:lueesa_app/core/services/user_service.dart';
 import 'package:stacked/stacked_annotations.dart';
 import 'package:stacked_services/stacked_services.dart';
 
+import '../core/services/voting_service.dart';
 import '../ui/views/auth/login/login_view.dart';
+import '../ui/views/auth/vote_login/vote_login.dart';
 import '../ui/views/executives/execs_view.dart';
 import '../ui/views/home/home.dart';
 import '../ui/views/note_upload/note_upload_screen.dart';
@@ -14,6 +16,7 @@ import '../ui/views/pq_view/pq_view_screen.dart';
 import '../ui/views/splash_screen/splash_view.dart';
 import '../ui/views/time_table/bottom_sheet/add_course_bm.dart';
 import '../ui/views/time_table/time_table_view.dart';
+import '../ui/views/voting/voting_screen.dart';
 
 @StackedApp(routes: [
   AdaptiveRoute(page: SplashScreenView, initial: true),
@@ -25,11 +28,14 @@ import '../ui/views/time_table/time_table_view.dart';
   AdaptiveRoute(page: AddCourseView),
   AdaptiveRoute(page: NotesUploadScreen),
   AdaptiveRoute(page: NotesView),
-  AdaptiveRoute(page: ExecsView)
+  AdaptiveRoute(page: ExecsView),
+  AdaptiveRoute(page: VotingLoginScreen),
+  AdaptiveRoute(page: VotingScreen)
 ], dependencies: [
   LazySingleton(classType: NavigationService),
   LazySingleton(classType: AuthService),
   LazySingleton(classType: UserService),
   LazySingleton(classType: StorageService),
+  LazySingleton(classType: VotingService)
 ])
 class AppSetup {}

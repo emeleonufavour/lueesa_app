@@ -87,4 +87,6 @@ class HomeViewModel extends BaseViewModel {
   goToUploadNotes() => _navService.navigateToNotesUploadScreen();
 
   goToExecutives() => _navService.navigateToExecsView();
+
+  goToVoting() => _navService.navigateToVotingLoginScreen();
 }

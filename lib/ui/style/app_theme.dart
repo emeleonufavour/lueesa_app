@@ -7,6 +7,8 @@ class AppTheme {
     return ThemeData(
         scaffoldBackgroundColor: Colors.white,
         hintColor: AppColor.blue,
+        floatingActionButtonTheme: const FloatingActionButtonThemeData(
+            backgroundColor: AppColor.blue, foregroundColor: Colors.white),
         appBarTheme: const AppBarTheme(
             backgroundColor: Colors.white,
             elevation: 0,

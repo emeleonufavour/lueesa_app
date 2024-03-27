@@ -6,7 +6,9 @@ import 'package:flutter_svg/svg.dart';
 
 import 'package:lueesa_app/ui/style/app_colors.dart';
 import 'package:gap/gap.dart';
+import 'package:lueesa_app/ui/utilities/l_text.dart';
 import 'package:lueesa_app/ui/views/auth/vote_login/vote_login_vm.dart';
+import 'package:lueesa_app/ui/widgets/l_button.dart';
 
 import 'package:stacked/stacked.dart';
 
@@ -93,11 +95,36 @@ class _LoginViewState extends State<VotingLoginScreen>
                                 borderRadius: BorderRadius.circular(50.0),
                                 color: Colors.white,
                               ),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  const Gap(50),
-                                ],
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 15),
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    const TextWidget(
+                                      text:
+                                          "Sign in to vote for your next LUEESA executives.",
+                                      fontWeight: FontWeight.bold,
+                                      fontsize: 25,
+                                      color: AppColor.blue,
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    const TextWidget(
+                                      text:
+                                          "Important note: Sign in with your Landmark University mail so that your vote will be counted. Voting is only open for 400 level Electrical and Information Engineering students. Remember to Vote wisely!",
+                                      color: Colors.red,
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    LButton(
+                                      label: "Sign in with your mail",
+                                      color: AppColor.blue,
+                                      fct: () {
+                                        model.signInWithMail(context);
+                                      },
+                                    ),
+                                  ],
+                                ),
                               ),
                             )
                           ],

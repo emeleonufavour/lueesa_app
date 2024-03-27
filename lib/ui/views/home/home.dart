@@ -132,6 +132,17 @@ class _HomeViewState extends State<HomeView> {
                           ),
                           onTap: () => viewModel.goToExecutives(),
                         ),
+                        ListTile(
+                          leading: const Icon(
+                            Icons.how_to_vote,
+                            color: Colors.black,
+                          ),
+                          title: const TextWidget(
+                            text: "Voting",
+                            fontWeight: FontWeight.bold,
+                          ),
+                          onTap: () => viewModel.goToVoting(),
+                        )
                       ],
                     ),
                   ),
