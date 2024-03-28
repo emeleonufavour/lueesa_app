@@ -3,6 +3,7 @@
 import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
 import 'package:flutter/foundation.dart'
     show defaultTargetPlatform, kIsWeb, TargetPlatform;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 /// Default [FirebaseOptions] for use with your Firebase apps.
 ///
@@ -43,38 +44,38 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyAgiTUAHBsWx1gMVtH_M_Hm4k0nByBOxzE',
-    appId: '1:55150659522:web:4f7f4e28d92afba786785b',
+  static FirebaseOptions web = FirebaseOptions(
+    apiKey: dotenv.env['FIREBASE_API_KEY']!,
+    appId: dotenv.env['FIREBASE_APP_ID']!,
     messagingSenderId: '55150659522',
-    projectId: 'lueesa-app',
+    projectId: dotenv.env['FIREBASE_PROJECT_ID']!,
     authDomain: 'lueesa-app.firebaseapp.com',
     storageBucket: 'lueesa-app.appspot.com',
     measurementId: 'G-G1JVY2KQVK',
   );
 
-  static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBab-wgyXx1fEA0RzuwN_HP6WK1M92870s',
-    appId: '1:55150659522:android:7fd3e697ab6e207486785b',
+  static FirebaseOptions android = FirebaseOptions(
+    apiKey: dotenv.env['FIREBASE_API_KEY']!,
+    appId: dotenv.env['FIREBASE_APP_ID']!,
     messagingSenderId: '55150659522',
-    projectId: 'lueesa-app',
+    projectId: dotenv.env['FIREBASE_PROJECT_ID']!,
     storageBucket: 'lueesa-app.appspot.com',
   );
 
-  static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyBO_yodwBrXpVmV8eodW-Wlbm_7A37_eYs',
-    appId: '1:55150659522:ios:653a59f7e54ebe1b86785b',
+  static FirebaseOptions ios = FirebaseOptions(
+    apiKey: dotenv.env['FIREBASE_API_KEY']!,
+    appId: dotenv.env['FIREBASE_APP_ID']!,
     messagingSenderId: '55150659522',
-    projectId: 'lueesa-app',
+    projectId: dotenv.env['FIREBASE_PROJECT_ID']!,
     storageBucket: 'lueesa-app.appspot.com',
     iosBundleId: 'com.example.lueesaApp',
   );
 
-  static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyBO_yodwBrXpVmV8eodW-Wlbm_7A37_eYs',
-    appId: '1:55150659522:ios:8d027fa1e8f5feb686785b',
+  static FirebaseOptions macos = FirebaseOptions(
+    apiKey: dotenv.env['FIREBASE_API_KEY']!,
+    appId: dotenv.env['FIREBASE_APP_ID']!,
     messagingSenderId: '55150659522',
-    projectId: 'lueesa-app',
+    projectId: dotenv.env['FIREBASE_PROJECT_ID']!,
     storageBucket: 'lueesa-app.appspot.com',
     iosBundleId: 'com.example.lueesaApp.RunnerTests',
   );
