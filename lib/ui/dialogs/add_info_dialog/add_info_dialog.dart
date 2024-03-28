@@ -22,6 +22,7 @@ class AddInfoDialog extends StatelessWidget {
         },
         builder: (context, viewModel, _) {
           return AlertDialog(
+            backgroundColor: Colors.white,
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
             title: TextWidget(
@@ -77,7 +78,7 @@ class AddInfoDialog extends StatelessWidget {
                 },
                 child: TextWidget(
                   text: viewModel.cameWithContent ? "Update" : "Add",
-                  color: Colors.white,
+                  color: Colors.blue,
                 ),
               ),
             ],

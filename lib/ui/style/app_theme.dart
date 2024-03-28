@@ -5,6 +5,7 @@ class AppTheme {
   //Light theme
   static ThemeData get lightTheme {
     return ThemeData(
+        useMaterial3: true,
         scaffoldBackgroundColor: Colors.white,
         hintColor: AppColor.blue,
         floatingActionButtonTheme: const FloatingActionButtonThemeData(
@@ -12,6 +13,8 @@ class AppTheme {
         appBarTheme: const AppBarTheme(
             backgroundColor: Colors.white,
             elevation: 0,
-            iconTheme: IconThemeData(color: Colors.black)));
+            iconTheme: IconThemeData(color: Colors.black)),
+        elevatedButtonTheme: const ElevatedButtonThemeData(),
+        dialogTheme: DialogTheme(backgroundColor: Colors.white));
   }
 }
