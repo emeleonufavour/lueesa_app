@@ -2,15 +2,17 @@
 
 Welcome to the LUEESA App, a Mobile application designed for Electrical and Information Department. This app provides various features to help department members access important resources, stay updated with the department's activities, and participate in decision-making processes. Here are some few screenshots from the app.
 
-![Login page](assets/read-me/lueesa-login.png)
+<p>
+<img src="assets/read-me/lueesa-login.png" width="400"/> <img src="assets/read-me/lueesa-home.png" width="400"/>
+<img src="assets/read-me/drawer.png" width="400"> <img src="assets/read-me/upload-pq.png" width="400">
+<img src="assets/read-me/timetable.png" width="400" > 
 
-![Home page](assets/read-me/lueesa-home.png)
 
-![Drawer](assets/read-me/drawer.png)
 
-![Upload Past Questions](assets/read-me/upload-pq.png)
+</p>
+<!-- ![Login page]() -->
 
-![Time table](assets/read-me/timetable.png)
+
 
 ## Features
 
